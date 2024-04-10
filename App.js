@@ -4,11 +4,11 @@ import TabNav from './Apps/Navigations/TabNav';
 import { NavigationContainer } from '@react-navigation/native';
 export default function App() {
   return (
-    <View>
+    
       <NavigationContainer>
         <TabNav />
       </NavigationContainer>
-    </View>
+ 
   );
 }
 

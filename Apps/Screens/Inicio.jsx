@@ -1,9 +1,11 @@
 import { View, Text ,ScrollView ,RefreshControl ,StyleSheet } from 'react-native'
 
-export default function Test1() {
+export default function Inicio() {
   return (
     <ScrollView>
-      <Text styles = {styles.container}> PAGINA1 </Text>
+      <View style={styles.container}>
+        <Text>Inicio</Text>
+      </View>
     </ScrollView>
   )
     
