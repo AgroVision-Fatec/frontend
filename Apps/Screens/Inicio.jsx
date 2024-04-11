@@ -1,6 +1,7 @@
 import { View, Text, ScrollView, StyleSheet , Image } from 'react-native';
 import CardTotal from '../Components/cardTotal';
-import Agro from '../Components/Agro.jpeg';
+
+import CardFazendas from '../Components/CardFazendas';
 export default function Inicio() {
  return (
     <ScrollView>
@@ -9,12 +10,10 @@ export default function Inicio() {
          <CardTotal title='Total de Fazendas' number='5' subTitle='campos cadastrados' type='fazenda' />
          <CardTotal title='Total de Armadilhas' number='17' subTitle='fotos cadastradas' type='armadilha' />
       </View>
-
+      
       <Text style={styles.textSubTitle}>Fazendas Cadastradas</Text>
-      <View style={styles.BoxFazendaImagem}>
-        <Image source={Agro} style={styles.image} />
-        <Text style={styles.boxText}>Descrição da Fazenda</Text>
-      </View>
+      <CardFazendas title='Titulo da Fazenda' number='Numero de armadilha' praga='Numero de praga' />
+     
     </ScrollView>
  );
 }
@@ -88,4 +87,11 @@ image: {
    height: 150, 
    marginRight: 10, 
 },
+textContainer: {
+   flex: 1, 
+   justifyContent: 'center', 
+   alignItems: 'flex-start', 
+   gap: 20,
+},
+
 });
