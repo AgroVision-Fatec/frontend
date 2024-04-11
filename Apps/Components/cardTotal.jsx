@@ -5,13 +5,33 @@ import { useNavigation } from '@react-navigation/core';
 
 export default function CardTotal({title, number, subTitle, type}) {
     const navigation = useNavigation();
-    
+    const cor = type == 'fazenda' ? '#8DC63E' : '#A66B3A';
     const handlePress = () => {
         type == 'fazenda' 
-        ? navigation.navigate('CadastroFazenda')
+        ? navigation.navigate('CadastroFazenda') 
         : type == 'armadilha'
         ? navigation.navigate('CadastroArmadilha')
         : null
+    };
+    const dynamicStyle = {
+        numberText: {
+            color: cor,
+            fontSize: 20,
+            fontWeight: 'bold',
+         },
+         subTitleText: {
+            color: cor,
+            fontSize: 12,
+            fontWeight: 'bold',
+         },
+         button: {
+            backgroundColor: cor,
+            borderRadius: 50,
+            width: 50,
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+         },
     };
     return (
         <ScrollView>
@@ -19,14 +39,14 @@ export default function CardTotal({title, number, subTitle, type}) {
                 <Text style={styles.boxText}>{title}</Text>
                 <View style={styles.primaryBox}>
                     <View style={styles.secondaryBox}>
-                        <Text style={styles.numberText}>{number}</Text>
-                        <Text style={styles.subTitleText}>{subTitle}</Text>
+                        <Text style={dynamicStyle.numberText}>{number}</Text>
+                        <Text style={dynamicStyle.subTitleText}>{subTitle}</Text>
                     </View>
                     <TouchableOpacity 
                         onPress={handlePress} 
                         style={styles.buttonContainer}
                     >
-                        <View style={styles.button}>
+                        <View style={dynamicStyle.button}>
                             <Ionicons name="add" size={24} color="white" />
                         </View>
                     </TouchableOpacity>
@@ -50,24 +70,16 @@ const styles = StyleSheet.create({
  },
  primaryBox: {
     flex: 1, 
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: 'row'
+    // justifyContent: 'space-between',
+    // alignItems: 'center',
  },
  secondaryBox: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
  },
- numberText: {
-    color: 'black',
-    fontSize: 20,
-    fontWeight: 'bold',
- },
- subTitleText: {
-    color: 'black',
-    fontSize: 14,
-    fontWeight: 'bold',
- },
+
  boxText: {
     color: 'black', 
     fontSize: 16,
@@ -80,14 +92,8 @@ buttonContainer: {
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
+    marginTop: 50,
 },
- button: {
-    backgroundColor: 'blue',
-    borderRadius: 50,
-    width: 50,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
- },
+
 
 });
