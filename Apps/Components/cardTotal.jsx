@@ -1,6 +1,7 @@
-import { View, Text, ScrollView, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity ,Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
+
 
 export default function CardTotal({title, number, subTitle, type}) {
     const navigation = useNavigation();
@@ -30,10 +31,11 @@ export default function CardTotal({title, number, subTitle, type}) {
                         </View>
                     </TouchableOpacity>
                 </View>
+                
             </View>
         </ScrollView>
     );
-    }
+}
 
 const styles = StyleSheet.create({
  container: {
@@ -42,10 +44,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#E4E4E4',
     borderRadius: 10,
     margin: 10,
-    justifyContent: 'center',
+    justifyContent: 'space-between', 
     alignItems: 'center',
+    padding: 10, 
  },
  primaryBox: {
+    flex: 1, 
     justifyContent: 'space-between',
     alignItems: 'center',
  },
@@ -65,13 +69,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
  },
  boxText: {
-    color: 'black', // Cor do texto dentro das caixas
-    fontSize: 16, // Tamanho do texto
-    fontWeight: 'bold', // Peso da fonte
+    color: 'black', 
+    fontSize: 16,
+    fontWeight: 'bold', 
  },
 buttonContainer: {
-    bottom: 20,
-    right: 20,
+    alignSelf: 'flex-end', 
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
@@ -85,5 +88,6 @@ buttonContainer: {
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-  },
+ },
+
 });
