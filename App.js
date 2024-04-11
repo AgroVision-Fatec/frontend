@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import TabNav from './Apps/Navigations/TabNav';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import InputFileComponent from '../frontend/Apps/Components/InputFile/InputFileComponent'
 
 const MyTheme = {
  ...DefaultTheme,
@@ -15,6 +16,7 @@ export default function App() {
     <NavigationContainer theme={MyTheme}>
       <TabNav />
     </NavigationContainer>
+   // <InputFileComponent />
  );
 }
 

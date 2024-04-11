@@ -40,7 +40,7 @@ export default function InputFileComponent() {
     <View style={styles.container}>
       <View>
          <TouchableOpacity
-            onPress={() => console.log("foiii")}
+            onPress={pickSomething}
             style={styles.buttonContainer}
          >
             {/* <Image  /> */}
