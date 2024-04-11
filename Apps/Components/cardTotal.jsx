@@ -16,12 +16,12 @@ export default function CardTotal({title, number, subTitle, type}) {
     const dynamicStyle = {
         numberText: {
             color: cor,
-            fontSize: 20,
+            fontSize: 40,
             fontWeight: 'bold',
          },
          subTitleText: {
             color: cor,
-            fontSize: 12,
+            fontSize: 16,
             fontWeight: 'bold',
          },
          button: {
@@ -51,7 +51,6 @@ export default function CardTotal({title, number, subTitle, type}) {
                         </View>
                     </TouchableOpacity>
                 </View>
-                
             </View>
         </ScrollView>
     );
@@ -65,35 +64,34 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 10,
     justifyContent: 'space-between', 
-    alignItems: 'center',
+    alignItems: 'flex-start',
     padding: 10, 
  },
  primaryBox: {
     flex: 1, 
-    flexDirection: 'row'
-    // justifyContent: 'space-between',
-    // alignItems: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
  },
  secondaryBox: {
+    width: 110,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
  },
-
  boxText: {
-    color: 'black', 
-    fontSize: 16,
+    color: '#323335', 
+    fontSize: 24,
     fontWeight: 'bold', 
  },
-buttonContainer: {
-    alignSelf: 'flex-end', 
+ buttonContainer: { 
+    borderRadius: 25,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     elevation: 5,
-    marginTop: 50,
-},
-
-
+ },
 });

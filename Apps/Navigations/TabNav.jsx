@@ -17,6 +17,9 @@ export default function TabNav() {
 
  // Efeito para atualizar a largura da borda superior com base na aba selecionada
 
+ const isTabVisible = (routeName) => {
+  return routeName !== 'CadastroFazenda' && routeName !== 'CadastroArmadilha';
+ };
 
  const handleTabPress = (tabName) => {
    setSelectedTab(tabName);
@@ -36,65 +39,49 @@ export default function TabNav() {
           borderTopColor: '#F45D16',
         },
       }}>
-      <Tab.Screen name='home1' component={Inicio}
-        listeners={({ route }) => ({
-          tabPress: () => handleTabPress('home1'),
-        })}
-        options={{
-          tabBarLabel: ({ color }) => (
-            <Text style={{ color: color, fontSize: 12, marginBottom: 3 }}>Início</Text>
-          ),
-          tabBarIcon: ({ color, size, focused }) => (
-            <TabIcon iconName="home" color={color} size={size} focused={focused} borderTopWidth={1} />
-          )
-        }}
-      />
-      <Tab.Screen name='home3' component={Test3}
-        listeners={({ route }) => ({
-          tabPress: () => handleTabPress('home3'),
-        })}
-        options={{
-          tabBarLabel: ({ color }) => (
-            <Text style={{ color: color, fontSize: 12, marginBottom: 3 }}>Dashboards</Text>
-          ),
-          tabBarIcon: ({ color, size, focused }) => (
-            <TabIcon iconName="trending-up" color={color} size={size} focused={focused} borderTopWidth={1} />
-          )
-        }}
-      />
-
-      <Tab.Screen name='CadastroFazenda' component={CadastroFazenda}
-        listeners={({ route }) => ({
-          tabPress: () => handleTabPress('CadastroFazenda'),
-        })}
-        options={{
-          tabBarVisible: false,
-        }}
-      />
-      <Tab.Screen name='CadastroArmadilha' component={CadastroArmadilha}
-        listeners={({ route }) => ({
-          tabPress: () => handleTabPress('CadastroArmadilha'),
-        })}
-        options={{
-          tabBarVisible: false,
-        }}
-      />
-      <Tab.Screen name='home4' component={Test4}
-        listeners={({ route }) => ({
-          tabPress: () => handleTabPress('home4'),
-        })}
-        options={{
-          tabBarLabel: ({ color }) => (
-            <Text style={{ color: color, fontSize: 12, marginBottom: 3 }}>Contato</Text>
-          ),
-          tabBarIcon: ({ color , size, focused }) => (
-            <TabIcon iconName="person" color={color} size={size} focused={focused} borderTopWidth={1} />
-          )
-        }}
-      />
+      {tabs.map((tab) => (
+        <Tab.Screen
+          key={tab.name}
+          name={tab.name}
+          component={tab.component}
+          listeners={({ route }) => ({
+            tabPress: () => handleTabPress(tab.name),
+          })}
+          options={{
+            tabBarVisible: isTabVisible(tab.name),
+            tabBarLabel: ({ color }) => (
+              <Text style={{ color: color, fontSize: 12, marginBottom: 3 }}>{tab.label}</Text>
+            ),
+            tabBarIcon: ({ color, size, focused }) => (
+              <TabIcon iconName={tab.iconName} color={color} size={size} focused={focused} borderTopWidth={1} />
+            )
+          }}
+        />
+      ))}
     </Tab.Navigator>
  );
 }
+
+const tabs = [
+  {
+    name: 'home1',
+    component: Inicio,
+    label: 'Início',
+    iconName: 'home'
+  },
+  {
+    name: 'home3',
+    component: Test3,
+    label: 'Dashboard',
+    iconName: 'trending-up'
+  },
+  {
+    name: 'home4',
+    component: Test4,
+    label: 'Perfil',
+    iconName: 'person'
+  }
+];
 
 const TabIcon = ({ iconName, color, size, borderTopWidth }) => (
   <View style={{ alignItems: 'center', paddingTop: borderTopWidth }}>

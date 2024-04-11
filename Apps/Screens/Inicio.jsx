@@ -12,8 +12,12 @@ export default function Inicio() {
       </View>
       
       <Text style={styles.textSubTitle}>Fazendas Cadastradas</Text>
-      <CardFazendas title='Titulo da Fazenda' number='Numero de armadilha' praga='Numero de praga' />
-     
+      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
+      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
+      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
+      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
+      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
+      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
     </ScrollView>
  );
 }
