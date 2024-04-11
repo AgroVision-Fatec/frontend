@@ -1,9 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
+import CameraComponent from './Components/Camera/CameraComponent';
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>App</Text>
-    </View>
+    <CameraComponent/>
   );
 }
 
