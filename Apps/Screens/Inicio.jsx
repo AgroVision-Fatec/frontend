@@ -1,6 +1,6 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet , Image } from 'react-native';
 import CardTotal from '../Components/cardTotal';
-
+import Agro from '../Components/Agro.jpeg';
 export default function Inicio() {
  return (
     <ScrollView>
@@ -11,6 +11,10 @@ export default function Inicio() {
       </View>
 
       <Text style={styles.textSubTitle}>Fazendas Cadastradas</Text>
+      <View style={styles.BoxFazendaImagem}>
+        <Image source={Agro} style={styles.image} />
+        <Text style={styles.boxText}>Descrição da Fazenda</Text>
+      </View>
     </ScrollView>
  );
 }
@@ -65,8 +69,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
  },
  boxText: {
-    color: '#fff', // Cor do texto dentro das caixas
-    fontSize: 16, // Tamanho do texto
-    fontWeight: 'bold', // Peso da fonte
+    color: '#fff', 
+    fontSize: 16, 
+    fontWeight: 'bold', 
  },
+ BoxFazendaImagem: {
+   width: 370,
+   height: 200, 
+   backgroundColor: '#E4E4E4',
+   borderRadius: 10,
+   margin: 10,
+   flexDirection: 'row', 
+   alignItems: 'center', 
+   padding: 10,
+},
+image: {
+   width: 170, 
+   height: 150, 
+   marginRight: 10, 
+},
 });
