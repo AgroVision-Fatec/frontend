@@ -53,8 +53,6 @@ export default function CameraComponent() {
 
     }
 
-
-
     return (
         <SafeAreaView style={styles.container}>
 

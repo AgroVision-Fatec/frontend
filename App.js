@@ -1,20 +1,27 @@
 import { StyleSheet, Text, View } from 'react-native';
-import CameraComponent from './Apps/Components/Camera/CameraComonent';
-import InputFileComponent from './Apps/Components/InputFile/InputFileComponent';
+import TabNav from './Apps/Navigations/TabNav';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+
+const MyTheme = {
+ ...DefaultTheme,
+ colors: {
+    ...DefaultTheme.colors,
+    background: '#323335', 
+ },
+};
+
 export default function App() {
-  return (
-
-        <InputFileComponent/>
-
-
-  );
+ return (
+    <NavigationContainer theme={MyTheme}>
+      <TabNav />
+    </NavigationContainer>
+ );
 }
 
 const styles = StyleSheet.create({
-  container: {
+ container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+ },
 });

@@ -1,10 +1,10 @@
 import { View, Text ,ScrollView ,RefreshControl } from 'react-native';
 
 
-export default function C() {
+export default function Test3() {
   return (
     <ScrollView>
-      <Text> PAGINA2</Text>
+      <Text> PAGINA3</Text>
     </ScrollView>
   )
     
