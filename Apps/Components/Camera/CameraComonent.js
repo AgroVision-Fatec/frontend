@@ -42,7 +42,7 @@ export default function CameraComponent() {
     }
 
     async function savePicture() {
-        setIsSaving(true)
+        
 
         //salvar a imagem no banco ou sei la aonde
 
@@ -68,7 +68,7 @@ export default function CameraComponent() {
    
 
                 <TouchableOpacity style={styles.buttonCamera} onPress={ takePicture }>
-                    <FontAwesome name="camera" size={23} color={'#fff'} />
+                    <FontAwesome name="camera" size={23} color={'white'}/>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -91,12 +91,16 @@ export default function CameraComponent() {
 
             { capturedPhoto  &&
             
+            
                 <Modal
                 animationType="slide"
                 transparent={false}
                 visible={modalIsOpen}
                 >
 
+                    <View style={{flex: 1, backgroundColor:'#323335'}}>
+
+                    
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', margin: 20}}>
 
                         <Image 
@@ -122,6 +126,7 @@ export default function CameraComponent() {
                        
 
                     </View>
+                    </View>
 
                 </Modal>
             
@@ -140,13 +145,14 @@ const styles = StyleSheet.create({
         flex:0,
         flexDirection: 'row',
         justifyContent: 'center',
-        height: 80
+        height: 80,
+        backgroundColor: '#323335',
     },
     buttonRotate: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#121212',
-        borderRadius: 10,
+        backgroundColor: '#F45D16',
+        borderRadius: 100,
         margin: 10,
         marginRight: 20,
         height: 50,
@@ -155,11 +161,11 @@ const styles = StyleSheet.create({
     buttonCamera: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#121212',
-        borderRadius: 10,
+        backgroundColor: '#F45D16',
+        borderRadius: 100,
         margin: 10,
-        marginLeft: 20,
+        marginLeft: 30,
         height: 50,
-        width: 300
+        width: 80,
     }
 })
