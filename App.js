@@ -1,22 +1,27 @@
 import { StyleSheet, Text, View } from 'react-native';
-import Test1 from './Apps/Screens/Test1';
 import TabNav from './Apps/Navigations/TabNav';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+
+const MyTheme = {
+ ...DefaultTheme,
+ colors: {
+    ...DefaultTheme.colors,
+    background: '#323335', 
+ },
+};
+
 export default function App() {
-  return (
-    
-      <NavigationContainer>
-        <TabNav />
-      </NavigationContainer>
- 
-  );
+ return (
+    <NavigationContainer theme={MyTheme}>
+      <TabNav />
+    </NavigationContainer>
+ );
 }
 
 const styles = StyleSheet.create({
-  container: {
+ container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+ },
 });
