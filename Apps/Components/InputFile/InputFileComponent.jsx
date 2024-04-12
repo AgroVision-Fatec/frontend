@@ -25,19 +25,31 @@ export default function InputFileComponent() {
         size: file.size
       };
 
-      setSelectedFiles([...selectedFiles, newFile]); // Adiciona o novo arquivo à lista de arquivos selecionados
+      setSelectedFiles([...selectedFiles, newFile]);
     } catch (error) {
       console.log("Erro ao selecionar arquivos:", error);
     }
   };
 
-  const formData = new FormData();
+  const sendFiles = async () => {
+    // Lógica para enviar os arquivos para o servidor
+    // os arquivos são sempre salvos  no state selectedFiles
+    console.log('enviando arquivo');
+  };
 
-  selectedFiles.forEach((file, index) => {
-    formData.append(`completeFile${index}`, JSON.stringify(file)); // Adiciona cada arquivo ao FormData com uma chave única
-  });
+  const removeFile = async (indexToRemove) => {
+    const updatedFiles = selectedFiles.filter((_, index) => index !== indexToRemove);
+    setSelectedFiles(updatedFiles);
 
-  console.log("FormData:", formData);
+    const updatedFormData = new FormData();
+    updatedFiles.forEach((file, index) => {
+      updatedFormData.append(`completeFile${index}`, JSON.stringify(file));
+    });
+
+    console.log("Updated FormData:", updatedFormData);
+  };
+
+  console.log(selectedFiles)
 
   return (
     <View style={styles.container}>
@@ -65,12 +77,18 @@ export default function InputFileComponent() {
                 <Ionicons name="document" size={30} color="#8DC63E" style={styles.icon} />
                 <Text style={styles.itemText}>{file.name}</Text>
               </View>
-              <Ionicons name="trash" size={30} color="#C21111" style={styles.icon} />
+              <Ionicons 
+                name="trash" 
+                size={30} 
+                color="#C21111" 
+                style={styles.icon} 
+                onPress={() => removeFile(index)}
+              />
             </View>
           ))}
         </ScrollView>
         <TouchableOpacity 
-            onPress={() => console.log("teste")}
+            onPress={sendFiles}
             style={styles.sendButton}
         >
             <View>
@@ -189,4 +207,4 @@ const styles = StyleSheet.create({
    importar :{
     gap: 100,
    }
-  });
+});

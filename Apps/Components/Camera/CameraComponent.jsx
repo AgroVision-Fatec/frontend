@@ -42,13 +42,15 @@ export default function CameraComponent() {
     }
 
     async function savePicture() {
-        
+        console.log('salvando imagem')
 
+
+        // o state capturedPhoyo salva o link da imagem no celular, só tem q subir ela pra algum lugar
         //salvar a imagem no banco ou sei la aonde
 
 
-        // setIsSaving(false)
-        // setModalIsOpen(false)
+        setIsSaving(false)
+        setModalIsOpen(false)
         
 
     }
