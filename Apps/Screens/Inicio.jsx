@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, StyleSheet , Image } from 'react-native';
 import CardTotal from '../Components/cardTotal';
-
+import TabNav from '../Navigations/main.routes';
 import CardFazendas from '../Components/CardFazendas';
 export default function Inicio() {
  return (
@@ -18,6 +18,7 @@ export default function Inicio() {
       <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
       <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
       <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
+      
     </ScrollView>
  );
 }

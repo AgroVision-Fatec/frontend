@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
-import TabNav from './Apps/Navigations/TabNav';
+import TabNav from './Apps/Navigations/main.routes';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import InputFileComponent from '../frontend/Apps/Components/InputFile/InputFileComponent'
+import AppNavigator from './Apps/Navigations';
 
 const MyTheme = {
  ...DefaultTheme,
@@ -14,9 +15,8 @@ const MyTheme = {
 export default function App() {
  return (
     <NavigationContainer theme={MyTheme}>
-      <TabNav />
+      <AppNavigator />
     </NavigationContainer>
-   // <InputFileComponent />
  );
 }
 
@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
  container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+   //  justifyContent: 'center',
  },
 });

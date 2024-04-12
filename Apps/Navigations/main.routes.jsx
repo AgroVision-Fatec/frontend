@@ -8,6 +8,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import CadastroFazenda from '../Screens/CadastroFazenda';
 import CadastroArmadilha from '../Screens/CadastroArmadilha';
+import Login from '../Screens/Login';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,7 +16,7 @@ export default function TabNav() {
  const [selectedTab, setSelectedTab] = useState('home1'); // Estado para controlar a aba selecionada
  const [borderTopWidth, setBorderTopWidth] = useState(1); // Estado para controlar a largura da borda superior
 
- // Efeito para atualizar a largura da borda superior com base na aba selecionada
+
 
  const isTabVisible = (routeName) => {
   return routeName !== 'CadastroFazenda' && routeName !== 'CadastroArmadilha';
@@ -64,14 +65,14 @@ export default function TabNav() {
 
 const tabs = [
   {
-    name: 'home1',
+    name: 'Inicio',
     component: Inicio,
     label: 'Início',
     iconName: 'home'
   },
   {
     name: 'home3',
-    component: Test3,
+    component: Login,
     label: 'Dashboard',
     iconName: 'trending-up'
   },
