@@ -8,9 +8,9 @@ export default function CardTotal({title, number, subTitle, type}) {
     const cor = type == 'fazenda' ? '#8DC63E' : '#A66B3A';
     const handlePress = () => {
         type == 'fazenda' 
-        ? navigation.navigate('CadastroFazenda') 
+        ? navigation.navigate('CadastroFazendas') 
         : type == 'armadilha'
-        ? navigation.navigate('CadastroArmadilha')
+        ? navigation.navigate('CadastroArmadilhas')
         : null
     };
     const dynamicStyle = {
