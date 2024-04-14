@@ -3,10 +3,14 @@ import { View, Button, ScrollView, Text, ActivityIndicator, StyleSheet, Touchabl
 import * as DocumentPicker from 'expo-document-picker';
 import { Ionicons } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/core';
+import axios from 'axios';
+import api from '../../Services/Axios';
 
 export default function InputFileComponent() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const navigation = useNavigation();
+
+  
 
   const pickSomething = async () => {
     try {
@@ -32,9 +36,36 @@ export default function InputFileComponent() {
   };
 
   const sendFiles = async () => {
-    // Lógica para enviar os arquivos para o servidor
-    // os arquivos são sempre salvos  no state selectedFiles
-    console.log('enviando arquivo');
+    try {
+      const formData = new FormData();
+
+      if(selectedFiles.length === 0){
+        alert('Nenhum arquivo selecionado!')
+        return
+      }
+  
+      selectedFiles.forEach((file, index) => {
+        console.log(file)
+        if (file.name === "FATEC_Fazendas") {
+          formData.append(`file`, {
+            uri: file.uri,
+            name: file.name,
+            type: file.type,
+          });
+        }
+      });
+  
+      const response = await api.post('/geojson/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    
+  
+      console.log('Resposta da requisição:', response.data);
+    } catch (error) {
+      console.error('Erro ao enviar arquivos:', error.response.data);
+    }
   };
 
   const removeFile = async (indexToRemove) => {
