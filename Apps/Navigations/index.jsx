@@ -5,6 +5,7 @@ import CadastroFazenda from '../Screens/CadastroFazenda';
 import { createStackNavigator } from '@react-navigation/stack';
 import InputFileComponent from '../Components/InputFile/InputFileComponent';
 import CameraComponent from '../Components/Camera/CameraComponent';
+import InfoFazenda from '../Screens/InfoFazenda';
 
 export default function AppNavigator() {
     const Stack = createStackNavigator();

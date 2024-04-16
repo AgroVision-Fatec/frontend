@@ -1,3 +1,4 @@
+// main.routes.jsx
 import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useState, useEffect } from 'react';
@@ -13,10 +14,8 @@ import Login from '../Screens/Login';
 const Tab = createBottomTabNavigator();
 
 export default function TabNav() {
- const [selectedTab, setSelectedTab] = useState('home1'); // Estado para controlar a aba selecionada
- const [borderTopWidth, setBorderTopWidth] = useState(1); // Estado para controlar a largura da borda superior
-
-
+ const [selectedTab, setSelectedTab] = useState('home1');
+ const [borderTopWidth, setBorderTopWidth] = useState(1);
 
  const isTabVisible = (routeName) => {
   return routeName !== 'CadastroFazenda' && routeName !== 'CadastroArmadilha';
@@ -71,13 +70,13 @@ const tabs = [
     iconName: 'home'
   },
   {
-    name: 'home3',
+    name: 'Dash',
     component: Login,
     label: 'Dashboard',
     iconName: 'trending-up'
   },
   {
-    name: 'home4',
+    name: 'Perfil',
     component: Test4,
     label: 'Perfil',
     iconName: 'person'

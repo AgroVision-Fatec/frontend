@@ -63,6 +63,8 @@ export default function InputFileComponent() {
     
   
       console.log('Resposta da requisição:', response.data);
+
+      navigation.navigate('Inicio')
     } catch (error) {
       console.error('Erro ao enviar arquivos:', error.response.data);
     }
@@ -237,5 +239,5 @@ const styles = StyleSheet.create({
    },
    importar :{
     gap: 100,
-   }
+   },
 });

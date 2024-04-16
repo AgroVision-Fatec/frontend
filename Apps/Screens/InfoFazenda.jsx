@@ -1,10 +1,11 @@
 import { View, Text ,ScrollView ,RefreshControl } from 'react-native';
 
 
-export default function C() {
+export default function InfoFazenda() {
+
   return (
     <ScrollView>
-      <Text> PAGINA2</Text>
+      <Text>Teste</Text>
     </ScrollView>
   )
     

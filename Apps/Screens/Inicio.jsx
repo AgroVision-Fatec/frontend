@@ -1,23 +1,64 @@
+// Inicio.jsx
 import { View, Text, ScrollView, StyleSheet , Image } from 'react-native';
 import CardTotal from '../Components/cardTotal';
-import TabNav from '../Navigations/main.routes';
+import React, { useState, useEffect } from 'react';
+import api from '../Services/Axios';
 import CardFazendas from '../Components/CardFazendas';
+import { useNavigation } from '@react-navigation/core';
+
 export default function Inicio() {
+   const navigation = useNavigation();
+
+   const [fazendas, setFazendas] = useState([]);
+   const [isLoading, setIsLoading] = useState(true);
+
+   useEffect(() => {
+      async function fetchFazendas() {
+         try {
+            const response = await api.get('/fazendas');
+            setFazendas(response.data);
+            setIsLoading(false);
+         } catch (error) {
+            console.error('Erro ao buscar fazendas:', error);
+            setIsLoading(false);
+         }
+      }
+
+      fetchFazendas();
+   }, []);
+
  return (
     <ScrollView>
       <Text style={styles.textTitle}>Agro Vision</Text>
       <View style={styles.boxContainer}>
-         <CardTotal title='Total de Fazendas' number='5' subTitle='campos cadastrados' type='fazenda' />
-         <CardTotal title='Total de Armadilhas' number='17' subTitle='fotos cadastradas' type='armadilha' />
+         <CardTotal title='Total de Fazendas' number={fazendas.length} subTitle='campos cadastrados' type='fazenda' />
+         <CardTotal title='Total de Armadilhas' number='0' subTitle='fotos cadastradas' type='armadilha' />
       </View>
       
       <Text style={styles.textSubTitle}>Fazendas Cadastradas</Text>
-      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
-      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
-      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
-      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
-      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
-      <CardFazendas title='Nome da Fazenda' numArmadilhas='12' numPragas='542' />
+      {isLoading ? (
+         <Text style={styles.loadingText}>Carregando...</Text>
+      ) : (
+         fazendas.length > 0 ? (
+            fazendas.map((fazenda, index) => (
+               <CardFazendas
+                  key={index}
+                  idFazenda={fazenda.id_fazenda}
+                  title={fazenda.nome}
+                  numArmadilhas={'0'}
+                  numPragas={'0'}
+                  setFazendas={setFazendas}
+                  fazenda={fazenda}
+               />
+            ))
+      ) : (
+         <Text style={styles.loadingText}>Nenhuma fazenda cadastrada</Text>
+      )
+      )}
+
+      {fazendas.length > 0 ? (
+         <Text style={styles.footerText}>Agro Vision</Text> 
+      ) : null}
       
     </ScrollView>
  );
@@ -98,5 +139,17 @@ textContainer: {
    alignItems: 'flex-start', 
    gap: 20,
 },
-
+loadingText: {
+   color: '#fff',
+   textAlign: 'center',
+   marginTop: 20,
+   fontSize: 18,
+},
+footerText: {
+   color: '#fff',
+   textAlign: 'center',
+   marginTop: 20,
+   marginBottom: 80,
+   fontSize: 18,
+},
 });
