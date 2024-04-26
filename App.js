@@ -3,6 +3,7 @@ import TabNav from './Apps/Navigations/main.routes';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import InputFileComponent from '../frontend/Apps/Components/InputFile/InputFileComponent'
 import AppNavigator from './Apps/Navigations';
+import Login from './Apps/Screens/Login';
 
 const MyTheme = {
  ...DefaultTheme,
@@ -15,7 +16,8 @@ const MyTheme = {
 export default function App() {
  return (
     <NavigationContainer theme={MyTheme}>
-      <AppNavigator />
+      <Login />
+      {/* <AppNavigator /> */}
     </NavigationContainer>
  );
 }

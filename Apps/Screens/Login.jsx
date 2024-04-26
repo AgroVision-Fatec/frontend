@@ -11,7 +11,7 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://localhost:3306', { // URL da API de autenticação
+      const response = await fetch('http://192.168.18.117:3000/', { // URL da API de autenticação
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,7 +35,6 @@ export default function Login() {
   };
 
   return (
-    <ScrollView>
       <View style={styles.container}>
         <Image source={LogoAgro} style={styles.image} />
         <Text style={styles.textTitle}>Login</Text>
@@ -62,7 +61,6 @@ export default function Login() {
           </TouchableOpacity>
         </View>
       </View>
-    </ScrollView>
   );
 }
 
@@ -71,9 +69,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#323335',
+    height: '100vh',
   },
   image: {
-    marginTop: '50%',
     marginBottom: 20,
   },
   textTitle: {
