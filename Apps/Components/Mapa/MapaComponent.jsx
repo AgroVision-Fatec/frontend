@@ -2,6 +2,8 @@ import {requestForegroundPermissionsAsync, getCurrentPositionAsync, watchPositio
 import { useEffect, useState, useRef } from 'react';
 import { View } from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
+import { StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 
 export default function MapaComponent() {
@@ -54,14 +56,14 @@ export default function MapaComponent() {
                         coordinate={{
                             latitude: userLocation.coords.latitude,
                             longitude: userLocation.coords.longitude,
-                        }}
-                    />
+                        }}                    
+                    >
+                        {/* <Ionicons name={"location-outline"} size={30} color={"red"} /> */}
+                    </Marker>
 
                 </MapView>
             }
-            
 
-            
         </View>
     )
 }
@@ -75,6 +77,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     map: {
-
+        flex: 1,
+        width: '100%'
     }
 })
