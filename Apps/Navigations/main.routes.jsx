@@ -3,7 +3,6 @@ import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useState, useEffect } from 'react';
 import Inicio from '../Screens/Inicio';
-import Test3 from '../Screens/Test3';
 import Test4 from '../Screens/Test4';
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
