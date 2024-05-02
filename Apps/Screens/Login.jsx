@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import LogoAgro from '../../assets/Logo.png';
 import { useNavigation } from '@react-navigation/native';
+import api from '../Services/Axios';
 
 export default function Login() {
   const navigation = useNavigation(); // hook de navegação
@@ -11,56 +12,56 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://192.168.18.117:3000/', { // URL da API de autenticação
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, senha }),
+      const response = await api.post('/login', { 
+        email,
+        senha
       });
 
-      if (!response.ok) {
+      console.log(response.data);
+
+      const { token } = response.data;
+
+      if (!token) {
         throw new Error('Falha na autenticação');
       }
 
-      const data = await response.json();
-      // Guardar o token de autenticação em AsyncStorage ou em algum estado global
-      console.log('Token de autenticação:', data.token);
+      console.log('Token de autenticação:', token);
 
-      // Redirecione o usuário para a próxima tela após o login bem-sucedido
+      // Armazenar o token em AsyncStorage ou em algum estado global, se necessário
+
       navigation.navigate('Inicio');
     } catch (error) {
-      Alert.alert('Erro', error.message);
+      Alert.alert('Erro', 'Usuário ou senha incorretos. Por favor, tente novamente.');
     }
   };
 
   return (
-      <View style={styles.container}>
-        <Image source={LogoAgro} style={styles.image} />
-        <Text style={styles.textTitle}>Login</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          secureTextEntry={true}
-          value={senha}
-          onChangeText={setSenha}
-        />
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Entrar</Text>
+    <View style={styles.container}>
+      <Image source={LogoAgro} style={styles.image} />
+      <Text style={styles.textTitle}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Senha"
+        secureTextEntry={true}
+        value={senha}
+        onChangeText={setSenha}
+      />
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <Text style={styles.loginButtonText}>Entrar</Text>
+      </TouchableOpacity>
+      <View style={styles.noAcc}>
+        <Text style={styles.textNoAcc}>Não tem uma conta?</Text>
+        <TouchableOpacity>
+          <Text style={styles.textNoAcc2}>Criar conta</Text>
         </TouchableOpacity>
-        <View style={styles.noAcc}>
-          <Text style={styles.textNoAcc}>Não tem uma conta?</Text>
-          <TouchableOpacity>
-            <Text style={styles.textNoAcc2}>Criar conta</Text>
-          </TouchableOpacity>
-        </View>
       </View>
+    </View>
   );
 }
 
@@ -70,20 +71,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#323335',
-    height: '100vh',
+    padding: 20,
   },
   image: {
     marginBottom: 20,
   },
   textTitle: {
-    fontSize: 50,
+    fontSize: 30,
     color: '#8DC63E',
     textAlign: 'center',
     marginBottom: 20,
     fontWeight: 'bold',
   },
   input: {
-    width: 300,
+    width: '100%',
     height: 50,
     borderWidth: 1,
     borderColor: '#8DC63E',
@@ -97,21 +98,18 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 40,
     borderRadius: 5,
+    alignItems: 'center',
   },
   loginButtonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
   },
-  textLogin: {
-    color: '#8DC63E',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
   noAcc: {
     flexDirection: 'column', 
     marginTop: 20,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   textNoAcc: {
     color: '#A66B3A',
@@ -122,6 +120,7 @@ const styles = StyleSheet.create({
     color: '#A66B3A',
     fontSize: 15,
     fontWeight: 'bold',
+    marginLeft: 5,
     textDecorationLine: 'underline',
   }
 });
