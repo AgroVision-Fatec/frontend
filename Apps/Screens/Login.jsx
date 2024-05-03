@@ -10,14 +10,15 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
+    console.log("testeeeeeeeee")
     try {
-      const response = await api.post('/login', { 
-        email,
-        senha
+      console.log("teste1")
+      const response = api.post('/auth/login', { 
+        "email": email,
+        "password": senha
       });
-
-      console.log(response.data);
+      console.log(response)
 
       const { token } = response.data;
 
@@ -55,12 +56,12 @@ export default function Login() {
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginButtonText}>Entrar</Text>
       </TouchableOpacity>
-      <View style={styles.noAcc}>
+      {/* <View style={styles.noAcc}>
         <Text style={styles.textNoAcc}>Não tem uma conta?</Text>
         <TouchableOpacity>
           <Text style={styles.textNoAcc2}>Criar conta</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 }
