@@ -14,43 +14,13 @@ export default function ControleUser() {
             <View style={styles.secondBox}>
               <Ionicons name="person" size={30} color="#8DC63E" style={styles.icon} />
               <Text style={styles.itemText}>Usuario</Text>
-              <Ionicons
+            </View>
+            <Ionicons
                 name="trash"
                 size={30}
                 color="#C21111"
                 style={styles.icon}
               />
-            </View>
-            <View style={styles.secondBox}>
-              <Ionicons name="person" size={30} color="#8DC63E" style={styles.icon} />
-              <Text style={styles.itemText}>Usuario</Text>
-              <Ionicons
-                name="trash"
-                size={30}
-                color="#C21111"
-                style={styles.icon}
-              />
-            </View>
-            <View style={styles.secondBox}>
-              <Ionicons name="person" size={30} color="#8DC63E" style={styles.icon} />
-              <Text style={styles.itemText}>Usuario</Text>
-              <Ionicons
-                name="trash"
-                size={30}
-                color="#C21111"
-                style={styles.icon}
-              />
-            </View>
-            <View style={styles.secondBox}>
-              <Ionicons name="person" size={30} color="#8DC63E" style={styles.icon} />
-              <Text style={styles.itemText}>Usuario</Text>
-              <Ionicons
-                name="trash"
-                size={30}
-                color="#C21111"
-                style={styles.icon}
-              />
-            </View>
           </View>
         </ScrollView>
         <TouchableOpacity
@@ -74,13 +44,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginTop: 50,
     backgroundColor: '#323335',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    gap: 10,
-    paddingBottom: 20,
   },
   mainTitle: {
     color: 'white',
@@ -159,7 +122,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   Arquivos: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     gap: 10,
     marginTop: 20,
     justifyContent: 'space-between',
@@ -168,8 +131,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-
-    gap: 10,
+    gap: 20,
   },
 
 });

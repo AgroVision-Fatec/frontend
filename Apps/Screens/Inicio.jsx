@@ -15,14 +15,16 @@ export default function Inicio() {
    useEffect(() => {
       async function fetchFazendas() {
          try {
-            const response = await api.get('/fazendas/1 ');
+            console.log('teste1')
+            const response = await api.get('/fazendas');
+            console.log(response);
             setFazendas(response.data);
             setIsLoading(false);
-            console.log('tesste');
+            
             console.log(response);
             
          } catch (error) {
-            console.error('Erro ao buscar fazendas:', error);
+            console.log('Erro ao buscar fazendas:', error);
             setIsLoading(false);
          }
       }
