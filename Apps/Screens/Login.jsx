@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import LogoAgro from '../../assets/Logo.png';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../Services/Axios';
 
 export default function Login() {
@@ -11,15 +12,12 @@ export default function Login() {
   const [senha, setSenha] = useState('');
 
   const handleLogin = () => {
-    console.log("testeeeeeeeee")
     try {
-      console.log("teste1")
       const response = api.post('/auth/login', { 
         "email": email,
         "password": senha
       });
-      console.log(response)
-
+      
       const { token } = response.data;
 
       if (!token) {
@@ -28,7 +26,7 @@ export default function Login() {
 
       console.log('Token de autenticação:', token);
 
-      // Armazenar o token em AsyncStorage ou em algum estado global, se necessário
+      AsyncStorage.setItem('Token', token);
 
       navigation.navigate('Inicio');
     } catch (error) {
