@@ -5,21 +5,28 @@ import React, { useState, useEffect } from 'react';
 import api from '../Services/Axios';
 import CardFazendas from '../Components/CardFazendas';
 import { useNavigation } from '@react-navigation/core';
+import { useAuth } from '../Context/authContext';
 
 export default function Inicio() {
    const navigation = useNavigation();
 
    const [fazendas, setFazendas] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
+   const { idUser } = useAuth();
 
    useEffect(() => {
       async function fetchFazendas() {
          try {
-            const response = await api.get('/fazendas');
+    
+            const response = await api.get(`/fazendas/user/${idUser}`);
+         
             setFazendas(response.data);
             setIsLoading(false);
+            
+    
+            
          } catch (error) {
-            console.error('Erro ao buscar fazendas:', error);
+            console.log('Erro ao buscar fazendas:', error);
             setIsLoading(false);
          }
       }
