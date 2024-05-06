@@ -6,29 +6,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../Services/Axios';
 
 export default function Login() {
-  const navigation = useNavigation(); // hook de navegação
-
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+
     try {
-      const response = api.post('/auth/login', { 
+      console.log('email'+email)
+      console.log('password'+senha)
+
+
+      const response = await api.post('/auth/login', { 
         "email": email,
         "password": senha
       });
       
-      const { token } = response.data;
+      const { accessToken } = response.data;
 
-      if (!token) {
-        throw new Error('Falha na autenticação');
-      }
+      await AsyncStorage.setItem('Token', accessToken);
+      // const valor = await AsyncStorage.getItem('Token');
 
-      console.log('Token de autenticação:', token);
-
-      AsyncStorage.setItem('Token', token);
-
-      navigation.navigate('Inicio');
+      // navigation.navigate('Inicio')
     } catch (error) {
       Alert.alert('Erro', 'Usuário ou senha incorretos. Por favor, tente novamente.');
     }
