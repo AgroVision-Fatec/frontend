@@ -3,15 +3,19 @@ import { View, Text ,ScrollView , StyleSheet } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import CardTotal from '../Components/cardTotal';
 import api from '../Services/Axios';
+import { useAuth } from "../Context/authContext";
 
 export default function Dashboard() {
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedValue, setSelectedValue] = useState(null);
   const [fazendas, setFazendas] = useState([]);
+  const { idUser } = useAuth();
 
   useEffect(() => {
     async function fetchFazendas() {
        try {
-          const response = await api.get('/fazendas');
+          const response = await api.get(`/fazendas/user/${idUser}`);
+          console.log(response.data)
           setFazendas(response.data);
           setIsLoading(false);
        } catch (error) {
@@ -32,8 +36,11 @@ export default function Dashboard() {
       <Text style={styles.textTitle}>Dashboard</Text>
       <RNPickerSelect
         placeholder={{ label: 'Selecione uma fazenda', value: null }}
-        items={fazendas}
-        onValueChange={(value) => {handleSubmitFazenda(value)}}
+        items={fazendas.map(fazenda => ({
+          label: fazenda.nome_fazenda,
+          value: fazenda.id_fazenda
+        }))}
+        onValueChange={(value) => handleSubmitFazenda(value)}
         style={pickerSelectStyles}
         value={selectedValue}
       />

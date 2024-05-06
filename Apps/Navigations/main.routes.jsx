@@ -52,12 +52,12 @@ const tabs = [
     label: 'Início',
     iconName: 'home'
   },
-  // {
-  //   name: 'Localizacao',
-  //   component: Localizacao,
-  //   label: 'Localizacao',
-  //   iconName: 'location-outline'
-  // },
+  {
+    name: 'Localizacao',
+    component: Localizacao,
+    label: 'Localizacao',
+    iconName: 'location-outline'
+  },
   {
     name: 'Dash',
     component: Dashboard,
@@ -82,7 +82,7 @@ const TabIcon = ({ iconName, color, size, borderTopWidth }) => (
   <View style={{ alignItems: 'center', paddingTop: borderTopWidth }}>
     <View style={{ display: (iconName === 'CadastroFazenda' || iconName === 'CadastroArmadilha') ? 'none' : 'flex' }}>
       {iconName === 'home' && <FontAwesome name={iconName} size={size} color={color} />}
-      {/* {iconName === 'location-outline' && <Ionicons name={iconName} size={size} color={color} />} */}
+      {iconName === 'location-outline' && <Ionicons name={iconName} size={size} color={color} />}
       {iconName === 'trending-up' && <Ionicons name={iconName} size={size} color={color} />}
       {iconName === 'person' && <Ionicons name={iconName} size={size} color={color} />}
       {iconName === 'people' && <Ionicons name={iconName} size={size} color={color} />}

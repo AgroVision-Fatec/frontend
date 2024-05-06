@@ -6,6 +6,7 @@ import api from "../Services/Axios";
 import CardFazendas from "../Components/CardFazendas";
 import { useNavigation } from "@react-navigation/core";
 import { useAuth } from "../Context/authContext";
+import TabNav from "../Navigations/main.routes";
 
 export default function Inicio() {
   const navigation = useNavigation();
@@ -66,7 +67,7 @@ export default function Inicio() {
           <CardFazendas
             key={index}
             idFazenda={fazenda.id_fazenda}
-            title={fazenda.nome}
+            title={fazenda.nome_fazenda}
             numArmadilhas={"0"}
             numPragas={"0"}
             setFazendas={setFazendas}
