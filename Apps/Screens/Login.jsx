@@ -13,33 +13,26 @@ export default function Login() {
   const { getUserByEmail, setIdUser } = useAuth();
 
   const handleLogin = async () => {
-
     try {
-      console.log('email'+email)
-      console.log('password'+senha)
-
-
       const response = await api.post('/auth/login', { 
         "email": email,
         "password": senha
       });
-      
+
       const { accessToken } = response.data;
       await AsyncStorage.setItem('Token', accessToken);
-      // const valor = await AsyncStorage.getItem('Token');
 
-      const user = await getUserByEmail(email)
-      setIdUser(user.id_usuario)
+      const user = await getUserByEmail(email);
+      setIdUser(user.id_usuario);
 
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Inicio' }],
+        routes: [{ name: 'Main' }], // Aqui é onde você navega para a TabNav
       });
     } catch (error) {
       Alert.alert('Erro', 'Usuário ou senha incorretos. Por favor, tente novamente.');
     }
   };
-
 
   return (
     <View style={styles.container}>
@@ -61,12 +54,6 @@ export default function Login() {
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginButtonText}>Entrar</Text>
       </TouchableOpacity>
-      {/* <View style={styles.noAcc}>
-        <Text style={styles.textNoAcc}>Não tem uma conta?</Text>
-        <TouchableOpacity>
-          <Text style={styles.textNoAcc2}>Criar conta</Text>
-        </TouchableOpacity>
-      </View> */}
     </View>
   );
 }
@@ -111,22 +98,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  noAcc: {
-    flexDirection: 'column',
-    marginTop: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textNoAcc: {
-    color: '#A66B3A',
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  textNoAcc2: {
-    color: '#A66B3A',
-    fontSize: 15,
-    fontWeight: 'bold',
-    marginLeft: 5,
-    textDecorationLine: 'underline',
-  }
 });

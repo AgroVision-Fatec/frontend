@@ -92,7 +92,7 @@ export default function InputFileComponent() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate('Inicio')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Main')}>
             <Ionicons name="arrow-back" size={45} color="#C21111" style={styles.icon} />
         </TouchableOpacity>
         <Text style={styles.mainTitle}>Importar Arquivos</Text>
