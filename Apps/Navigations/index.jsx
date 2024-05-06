@@ -8,6 +8,7 @@ import CameraComponent from '../Components/Camera/CameraComponent';
 import InfoFazenda from '../Screens/InfoFazenda';
 import ControleUser from '../Screens/ControleUser';
 import Login from '../Screens/Login';
+import { AuthProvider } from '../Context/authContext';
 
 
 
@@ -16,6 +17,8 @@ export default function AppNavigator() {
     const Stack = createStackNavigator();
 
     return (
+        
+        <AuthProvider>
         <Stack.Navigator initialRouteName='Login'>
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="Inicio" component={Inicio} options={{ headerShown: false }} />
@@ -23,5 +26,6 @@ export default function AppNavigator() {
             <Stack.Screen name="CadastroFazendas" component={InputFileComponent} options={{ headerShown: false }} />
             <Stack.Screen name="CadastroArmadilhas" component={CameraComponent} options={{ headerShown: false }} />
         </Stack.Navigator>
+        </AuthProvider>
     );
 }

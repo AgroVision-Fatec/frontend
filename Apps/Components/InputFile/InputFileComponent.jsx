@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
 import api from '../../Services/Axios';
+import { decodeJWTToken, getJWTDecoded, getJWTToken } from '../../Services/tokenUtils';
 
 export default function InputFileComponent() {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -54,12 +55,17 @@ export default function InputFileComponent() {
           });
         }
       });
+
+
+      // const token_descodi = await getJWTDecoded();
+      // console.log('token'+token_descodi)
+   
   
-      const response = await api.post('/geojson/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      // const response = await api.post('/geojson/upload/:userId', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // });
     
   
       console.log('Resposta da requisição:', response.data);

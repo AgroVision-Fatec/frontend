@@ -4,28 +4,20 @@ import LogoAgro from '../../assets/Logo.png';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../Services/Axios';
+import { useAuth } from '../Context/authContext';
 
 export default function Login() {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const { login } = useAuth();
 
   const handleLogin = async () => {
-
     try {
-      console.log('email'+email)
-      console.log('password'+senha)
-
-
-      const response = await api.post('/auth/login', { 
-        "email": email,
-        "password": senha
-      });
-      
-      const { accessToken } = response.data;
-      await AsyncStorage.setItem('Token', accessToken);
-      // const valor = await AsyncStorage.getItem('Token');
-
+      await login(email, senha);
+      // const token = await AsyncStorage.getItem('Token');
+      // const decodedToken = await getJWTDecoded(token);
+      // console.log('Token decodificado:', decodedToken);
       navigation.reset({
         index: 0,
         routes: [{ name: 'Inicio' }],
@@ -106,7 +98,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   noAcc: {
-    flexDirection: 'column', 
+    flexDirection: 'column',
     marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
