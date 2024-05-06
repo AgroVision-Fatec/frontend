@@ -17,9 +17,7 @@ const MyTheme = {
 export default function App() {
  return (
     <NavigationContainer theme={MyTheme}>
-      <Login />
-      {/* <CadastroUsuario /> */}
-      {/* <AppNavigator /> */}
+      <AppNavigator />
     </NavigationContainer>
  );
 }

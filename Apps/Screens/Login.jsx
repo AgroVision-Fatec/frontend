@@ -23,11 +23,13 @@ export default function Login() {
       });
       
       const { accessToken } = response.data;
-
       await AsyncStorage.setItem('Token', accessToken);
       // const valor = await AsyncStorage.getItem('Token');
 
-      // navigation.navigate('Inicio')
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Inicio' }],
+      });
     } catch (error) {
       Alert.alert('Erro', 'Usuário ou senha incorretos. Por favor, tente novamente.');
     }
