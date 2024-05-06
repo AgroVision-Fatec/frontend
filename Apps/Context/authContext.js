@@ -1,40 +1,27 @@
 import React, { createContext, useState, useContext } from 'react';
-
+import api from '../Services/Axios';
 const AuthContext = createContext();
 
 
 export const AuthProvider = ({ children }) => {
+    const [idUser, setIdUser] = useState(null)
 
-    const[userLoggedToken, setUserLoggedToken] = useState(null);
 
   
-    const login = async(email, password) => {
-        try{
-            const response = await api.post('/auth/login', { 
-                "email": email,
-                "password": password
-              });
-
-            const { accessToken } = response.data;
-            await AsyncStorage.setItem('Token', accessToken);
-            setUserLoggedToken(accessToken)
-
-        } catch(error) {
-            console.log('erro ao fazer login')
-            
+    const getUserByEmail = async (email) => {
+        try {
+          const response = await api.get(`/users/email/${email}`); 
+          return response.data;
+        } catch (error) {
+          console.error('Erro ao obter informações do usuário:', error);
+          throw error;
         }
-    }
- 
-
-    const logout = async () => {
-        await AsyncStorage.removeItem('Token');
-        setUserLoggedToken(null);
       };
-
+ 
 
   
     return (
-      <AuthContext.Provider value={{ login, logout, userLoggedToken }}>
+      <AuthContext.Provider value={{ getUserByEmail, idUser, setIdUser}}>
         {children}
       </AuthContext.Provider>
     );

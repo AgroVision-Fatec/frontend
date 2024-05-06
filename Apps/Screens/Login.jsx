@@ -10,14 +10,27 @@ export default function Login() {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const { login } = useAuth();
+  const { getUserByEmail, setIdUser } = useAuth();
 
   const handleLogin = async () => {
+
     try {
-      await login(email, senha);
-      // const token = await AsyncStorage.getItem('Token');
-      // const decodedToken = await getJWTDecoded(token);
-      // console.log('Token decodificado:', decodedToken);
+      console.log('email'+email)
+      console.log('password'+senha)
+
+
+      const response = await api.post('/auth/login', { 
+        "email": email,
+        "password": senha
+      });
+      
+      const { accessToken } = response.data;
+      await AsyncStorage.setItem('Token', accessToken);
+      // const valor = await AsyncStorage.getItem('Token');
+
+      const user = await getUserByEmail(email)
+      setIdUser(user.id_usuario)
+
       navigation.reset({
         index: 0,
         routes: [{ name: 'Inicio' }],
@@ -26,6 +39,7 @@ export default function Login() {
       Alert.alert('Erro', 'Usuário ou senha incorretos. Por favor, tente novamente.');
     }
   };
+
 
   return (
     <View style={styles.container}>
