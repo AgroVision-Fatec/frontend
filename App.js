@@ -3,6 +3,8 @@ import TabNav from './Apps/Navigations/main.routes';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import InputFileComponent from '../frontend/Apps/Components/InputFile/InputFileComponent'
 import AppNavigator from './Apps/Navigations';
+import Login from './Apps/Screens/Login';
+import CadastroUsuario from './Apps/Screens/CadastroUsuario';
 
 const MyTheme = {
  ...DefaultTheme,

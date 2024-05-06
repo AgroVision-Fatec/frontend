@@ -5,10 +5,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
 import api from '../../Services/Axios';
+import { decodeJWTToken, getJWTDecoded, getJWTToken } from '../../Services/tokenUtils';
+import { useAuth } from '../../Context/authContext';
 
 export default function InputFileComponent() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const navigation = useNavigation();
+  const { idUser } = useAuth();
 
   
 
@@ -45,7 +48,7 @@ export default function InputFileComponent() {
       }
   
       selectedFiles.forEach((file, index) => {
-        console.log(file)
+        // console.log(file)
         if (file.name === "FATEC_Fazendas") {
           formData.append(`file`, {
             uri: file.uri,
@@ -54,15 +57,17 @@ export default function InputFileComponent() {
           });
         }
       });
+
+
+      console.log('usuario a enviar a fazenda: ' + idUser)
+   
   
-      const response = await api.post('/geojson/upload', formData, {
+      const response = await api.post(`/geojson/upload/${idUser}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
     
-  
-      console.log('Resposta da requisição:', response.data);
 
       navigation.navigate('Inicio')
     } catch (error) {
@@ -82,7 +87,7 @@ export default function InputFileComponent() {
     console.log("Updated FormData:", updatedFormData);
   };
 
-  console.log(selectedFiles)
+  // console.log(selectedFiles)
 
   return (
     <View style={styles.container}>
