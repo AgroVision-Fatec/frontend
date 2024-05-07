@@ -42,7 +42,7 @@ const [isLoading, setIsLoading] = useState(true);
           <View style={styles.Arquivos} key={index}>
             <View style={styles.secondBox}>
               <Ionicons name="person" size={30} color="#8DC63E" style={styles.icon} />
-              <Text style={styles.itemText}>{user.nome}</Text>
+              <Text style={styles.itemText}>Usuario</Text>
             </View>
             <Ionicons
                 name="trash"
@@ -56,6 +56,7 @@ const [isLoading, setIsLoading] = useState(true);
         </ScrollView>
         <TouchableOpacity
           style={styles.sendButton}
+          onPress={() => navigation.navigate("CadastroUsuario")}
         >
           <View>
             <Text style={styles.cadButtonText}>Novo Usuario</Text>

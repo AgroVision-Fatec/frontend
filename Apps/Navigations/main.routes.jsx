@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Inicio from '../Screens/Inicio';
 import ControleUser from '../Screens/ControleUser';
 import Localizacao from '../Screens/Localizacao';
-import Test4 from '../Screens/Test4';
+import Dashboard from '../Screens/Dashboard';
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import Login from '../Screens/Login';
@@ -60,16 +60,10 @@ const tabs = [
   },
   {
     name: 'Dash',
-    component: Login,
+    component: Dashboard,
     label: 'Dashboard',
     iconName: 'trending-up'
   },
-  // {
-  //   name: 'Perfil',
-  //   component: Test4,
-  //   label: 'Perfil',
-  //   iconName: 'person'
-  // },
   {
     name: 'ControllerUser',
     component: ControleUser,

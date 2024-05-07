@@ -2,11 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = axios.create({
-<<<<<<< Updated upstream
-  baseURL: 'http://192.168.28.72:3000',
-=======
   baseURL: 'http://192.168.5.115:3000',
->>>>>>> Stashed changes
 });
 
 api.interceptors.request.use(config => {

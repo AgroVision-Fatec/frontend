@@ -5,13 +5,12 @@ import { useNavigation } from '@react-navigation/core';
 
 export default function CardTotal({title, number, subTitle, type}) {
     const navigation = useNavigation();
-    const cor = type == 'fazenda' ? '#8DC63E' : '#A66B3A';
+    const cor = type == 'fazenda' ? '#8DC63E' :  type == 'talhoes' ? '#8DC63E' : '#A66B3A';
     const handlePress = () => {
-        type == 'fazenda' 
-        ? navigation.navigate('CadastroFazendas') 
-        : type == 'armadilha'
+        type == 'armadilha'
         ? navigation.navigate('CadastroArmadilhas')
-        : null
+        : navigation.navigate('CadastroFazendas')
+        
     };
     const dynamicStyle = {
         numberText: {

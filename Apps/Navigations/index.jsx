@@ -9,6 +9,7 @@ import InfoFazenda from '../Screens/InfoFazenda';
 import ControleUser from '../Screens/ControleUser';
 import Login from '../Screens/Login';
 import { AuthProvider } from '../Context/authContext';
+import CadastroUsuario from '../Screens/CadastroUsuario';
 
 
 
@@ -25,6 +26,7 @@ export default function AppNavigator() {
             <Stack.Screen name="Main" component={TabNav} options={{ headerShown: false }} />
             <Stack.Screen name="CadastroFazendas" component={InputFileComponent} options={{ headerShown: false }} />
             <Stack.Screen name="CadastroArmadilhas" component={CameraComponent} options={{ headerShown: false }} />
+            <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} options={{ headerShown: false }} />
         </Stack.Navigator>
         </AuthProvider>
     );

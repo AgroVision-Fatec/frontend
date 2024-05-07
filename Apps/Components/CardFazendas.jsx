@@ -64,6 +64,11 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
             });
     
             toggleEditModal();
+
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Main' }],
+            });
         } catch (error) {
             console.error('Erro ao salvar edições da fazenda:', error);
         }
@@ -108,12 +113,12 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
                 <ScrollView contentContainerStyle={styles.modalScrollViewContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>{title}</Text>
-                        <Text>Número de armadilhas: {numArmadilhas}</Text>
-                        <Text>Número de pragas: {numPragas}</Text>
-                        <Text>Tipo: {fazendaInfo ? fazendaInfo.tipoCoordenada : 'Carregando...'}</Text>
-                        <Text>Coordenadas: {fazendaInfo ? fazendaInfo.coordenadas : 'Carregando...'}</Text>
-                        <TouchableOpacity onPress={toggleModal}>
-                            <Text style={styles.closeButton}>Fechar</Text>
+                        <Text style={styles.textStyle}>Número de armadilhas: {numArmadilhas}</Text>
+                        <Text style={styles.textStyle}>Número de pragas: {numPragas}</Text>
+                        {/* <Text style={styles.textStyle}>Tipo: {fazendaInfo ? fazendaInfo.tipoCoordenada : 'Carregando...'}</Text> */}
+                        {/* <Text style={styles.textStyle}>Coordenadas: {fazendaInfo ? fazendaInfo.coordenadas : 'Carregando...'}</Text> */}
+                        <TouchableOpacity style={styles.registerButton} onPress={toggleModal}>
+                            <Text style={styles.registerButtonText}>Cancelar</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -122,10 +127,14 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
             {/* Modal para confirmar exclusão */}
             <Modal visible={isDeleteModalVisible} animationType="slide">
                 <View style={styles.modalContainer}>
-                    <Text>Deseja realmente excluir esta fazenda?</Text>
+                    <Text style={styles.textStyle}>Deseja realmente excluir esta fazenda?</Text>
                     <View style={styles.containerButton}>
-                        <Button title="Cancelar" onPress={toggleDeleteModal} />
-                        <Button title="Excluir" onPress={handleDelete} />
+                        <TouchableOpacity style={styles.registerButton} onPress={toggleDeleteModal}>
+                                <Text style={styles.registerButtonText}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.registerButton} onPress={handleDelete}>
+                            <Text style={styles.registerButtonText}>Excluir</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
@@ -152,8 +161,12 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
                         style={styles.input}
                     />
                     <View style={styles.containerButton}>
-                        <Button title="Cancelar" onPress={toggleEditModal} style={styles.buttonCancel} />
-                        <Button title="Salvar" onPress={handleSaveEdit} />
+                        <TouchableOpacity style={styles.registerButton} onPress={toggleEditModal}>
+                            <Text style={styles.registerButtonText}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.registerButton} onPress={handleSaveEdit}>
+                            <Text style={styles.registerButtonText}>Salvar</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
@@ -162,6 +175,10 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
 }
 
 const styles = StyleSheet.create({
+    buttonCancel: {
+        backgroundColor: "#F45D16",
+        color: "#fff"
+    },
     BoxFazenda: {
         width: 390,
         height: 220, 
@@ -209,6 +226,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#323335',
     },
     input: {
         borderWidth: 1,
@@ -216,6 +234,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginVertical: 5,
         width: '80%',
+        backgroundColor: "#fff"
     },
     containerButton: {
         padding: 0,
@@ -224,7 +243,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
-        maxHeight: 55,
+        maxHeight: 75,
     },  
     editDeleteButton: {
         flex: 1, 
@@ -244,10 +263,12 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: "#fff",
     },
     modalInfo: {
         fontSize: 18,
         marginBottom: 10,
+        color: "#fff",
     },
     editButton: {
         marginTop: 20,
@@ -278,13 +299,31 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: "#323335",
+        color: "#fff",
     },
     modalContent: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
+        color: "#fff",
     },
+    textStyle: {
+        color: '#fff'
+    },
+    registerButton: {
+        backgroundColor: '#F45D16',
+        paddingVertical: 10,
+        paddingHorizontal: 40,
+        marginTop: 20,
+        borderRadius: 5,
+      },
+      registerButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
 });
 
 const dynamicStyle = {
