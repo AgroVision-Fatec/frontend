@@ -30,8 +30,8 @@ export default function Inicio() {
 
     async function fetchTotalArmadilhas() {
       try {
-        const response = await api.get(`/files/list`);
-        setTotalArmadilhas(response.data.length);
+        // const response = await api.get(`/files/list`);
+        // setTotalArmadilhas(response.data.length);
       } catch (error) {
         console.log("Erro ao buscar total de armadilhas:", error);
       }

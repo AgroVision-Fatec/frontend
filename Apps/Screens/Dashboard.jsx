@@ -9,13 +9,17 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedValue, setSelectedValue] = useState(null);
   const [fazendas, setFazendas] = useState([]);
+
+  const [talhoes, setTalhoes] = useState(0);
+  const [armadilhas, setArmadilhas] = useState(0)
+
   const { idUser } = useAuth();
+
 
   useEffect(() => {
     async function fetchFazendas() {
        try {
           const response = await api.get(`/fazendas/user/${idUser}`);
-          console.log(response.data)
           setFazendas(response.data);
           setIsLoading(false);
        } catch (error) {
@@ -27,20 +31,28 @@ export default function Dashboard() {
     fetchFazendas();
  }, []);
 
-  const handleSubmitFazenda = (value) => {
-    console.log(value)
+ // arrumar logica pra buscar os talhoes dps fazer o mesmo pra armadilha
+
+  const getTotalTalhoes = async(id_fazenda) => {
+    console.log('buscando talhoes')
+    const response_talhoes = await api.get(`/talhoes/${id_fazenda}`)
+    console.log('resultado busca de talhoes: ' + response_talhoes.data)
+  }
+
+  const handleSubmitFazenda = async(value) => {
+    await getTotalTalhoes(value)
   };
 
   return (
     <ScrollView>
       <Text style={styles.textTitle}>Dashboard</Text>
       <RNPickerSelect
-        placeholder={{ label: 'Selecione uma fazenda', value: null }}
+        placeholder={{ label: 'Selecione uma fazenda', value: undefined}}
         items={fazendas.map(fazenda => ({
           label: fazenda.nome_fazenda,
           value: fazenda.id_fazenda
         }))}
-        onValueChange={(value) => handleSubmitFazenda(value)}
+        onValueChange={(value) => handleSubmitFazenda(41)}
         style={pickerSelectStyles}
         value={selectedValue}
       />
