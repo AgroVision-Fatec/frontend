@@ -25,6 +25,15 @@ export default function Login() {
       const user = await getUserByEmail(email);
       setIdUser(user.id_usuario);
 
+      
+      api.interceptors.request.use(async config => {
+        const token = await AsyncStorage.getItem('Token');
+        if (token) {
+          config.headers.Authorization = `Bearer ${token} `;
+        }
+        return config;
+      });
+
       navigation.reset({
         index: 0,
         routes: [{ name: 'Main' }], // Aqui é onde você navega para a TabNav
