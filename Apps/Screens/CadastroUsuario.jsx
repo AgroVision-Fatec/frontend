@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import api from '../Services/Axios';
+import { Ionicons } from '@expo/vector-icons'; 
 
 export default function CadastroUsuario() {
   const navigation = useNavigation();
@@ -20,7 +21,10 @@ export default function CadastroUsuario() {
         "password": senha
       });
 
-      navigation.navigate('Inicio');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Main' }],
+      });
     } catch (error) {
       Alert.alert('Erro', error.message);
     };
@@ -28,7 +32,15 @@ export default function CadastroUsuario() {
 
   return (
       <View style={styles.container}>
-        <Text style={styles.textTitle}>Novo Usuário</Text>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.reset({
+            index: 0,
+            routes: [{ name: 'Main' }],
+          })}>
+              <Ionicons name="arrow-back" size={45} color="#C21111" style={styles.icon} />
+          </TouchableOpacity>
+          <Text style={styles.textTitle}>Novo Usuário</Text>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Nome"
@@ -102,5 +114,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  header: {
+    flexDirection: 'row',
+    gap: 5,
+  },
+  icon: {
+    paddingTop: 8,
   },
 });

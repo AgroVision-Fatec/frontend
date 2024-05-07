@@ -64,12 +64,6 @@ const tabs = [
     label: 'Dashboard',
     iconName: 'trending-up'
   },
-  // {
-  //   name: 'Perfil',
-  //   component: Test4,
-  //   label: 'Perfil',
-  //   iconName: 'person'
-  // },
   {
     name: 'ControllerUser',
     component: ControleUser,

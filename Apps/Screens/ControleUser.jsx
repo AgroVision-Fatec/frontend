@@ -5,6 +5,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 
 export default function ControleUser() {
+
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <Text style={styles.textSubTitle}>Usuários</Text>
@@ -13,7 +16,7 @@ export default function ControleUser() {
           <View style={styles.Arquivos}>
             <View style={styles.secondBox}>
               <Ionicons name="person" size={30} color="#8DC63E" style={styles.icon} />
-              <Text style={styles.itemText}>Usuario</Text>
+              <Text style={styles.itemText}>kevin</Text>
             </View>
             <Ionicons
                 name="trash"
@@ -25,6 +28,7 @@ export default function ControleUser() {
         </ScrollView>
         <TouchableOpacity
           style={styles.sendButton}
+          onPress={() => navigation.navigate("CadastroUsuario")}
         >
           <View>
             <Text style={styles.cadButtonText}>Novo Usuario</Text>
