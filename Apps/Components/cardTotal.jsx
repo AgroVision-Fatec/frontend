@@ -1,10 +1,11 @@
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity ,Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
-
+import { useAuth } from '../Context/authContext';
 
 export default function CardTotal({title, number, subTitle, type}) {
     const navigation = useNavigation();
+    const {role} = useAuth();
     const cor = type == 'fazenda' ? '#8DC63E' : '#A66B3A';
     const handlePress = () => {
         type == 'fazenda' 
@@ -42,6 +43,7 @@ export default function CardTotal({title, number, subTitle, type}) {
                         <Text style={dynamicStyle.numberText}>{number}</Text>
                         <Text style={dynamicStyle.subTitleText}>{subTitle}</Text>
                     </View>
+                    {role == 'admin' ? 
                     <TouchableOpacity 
                         onPress={handlePress} 
                         style={styles.buttonContainer}
@@ -50,6 +52,8 @@ export default function CardTotal({title, number, subTitle, type}) {
                             <Ionicons name="add" size={24} color="white" />
                         </View>
                     </TouchableOpacity>
+                    : null
+                    }
                 </View>
             </View>
         </ScrollView>

@@ -8,10 +8,14 @@ import Test4 from '../Screens/Test4';
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import Login from '../Screens/Login';
+import { useAuth } from '../Context/authContext';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNav() {
+  const { role } = useAuth();
+  const { idUser } = useAuth();
+  console.log(idUser);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -26,57 +30,59 @@ export default function TabNav() {
           borderTopColor: '#F45D16',
         },
       }}>
-      {tabs.map((tab) => (
+      <Tab.Screen
+        name="Inicio"
+        component={Inicio}
+        options={{
+          tabBarLabel: ({ color }) => (
+            <Text style={{ color: color, fontSize: 12, marginBottom: 3 }}>Início</Text>
+          ),
+          tabBarIcon: ({ color, size }) => (
+            <TabIcon iconName="home" color={color} size={size} />
+          )
+        }}
+      />
+      <Tab.Screen
+        name="Localizacao"
+        component={Localizacao}
+        options={{
+          tabBarLabel: ({ color }) => (
+            <Text style={{ color: color, fontSize: 12, marginBottom: 3 }}>Localização</Text>
+          ),
+          tabBarIcon: ({ color, size }) => (
+            <TabIcon iconName="location-outline" color={color} size={size} />
+          )
+        }}
+      />
+      <Tab.Screen
+        name="Dash"
+        component={Login}
+        options={{
+          tabBarLabel: ({ color }) => (
+            <Text style={{ color: color, fontSize: 12, marginBottom: 3 }}>Dashboard</Text>
+          ),
+          tabBarIcon: ({ color, size }) => (
+            <TabIcon iconName="trending-up" color={color} size={size} />
+          )
+        }}
+      />
+      {(role === 'admin') && (
         <Tab.Screen
-          key={tab.name}
-          name={tab.name}
-          component={tab.component}
+          name="ControllerUser"
+          component={ControleUser}
           options={{
             tabBarLabel: ({ color }) => (
-              <Text style={{ color: color, fontSize: 12, marginBottom: 3 }}>{tab.label}</Text>
+              <Text style={{ color: color, fontSize: 12, marginBottom: 3 }}>Usuários</Text>
             ),
             tabBarIcon: ({ color, size }) => (
-              <TabIcon iconName={tab.iconName} color={color} size={size} />
+              <TabIcon iconName="people" color={color} size={size} />
             )
           }}
         />
-      ))}
+      )}
     </Tab.Navigator>
   );
 }
-
-const tabs = [
-  {
-    name: 'Inicio',
-    component: Inicio,
-    label: 'Início',
-    iconName: 'home'
-  },
-  {
-    name: 'Localizacao',
-    component: Localizacao,
-    label: 'Localizacao',
-    iconName: 'location-outline'
-  },
-  {
-    name: 'Dash',
-    component: Login,
-    label: 'Dashboard',
-    iconName: 'trending-up'
-  },
-  // {
-  //   name: 'Perfil',
-  //   component: Test4,
-  //   label: 'Perfil',
-  //   iconName: 'person'
-  // },
-  {
-    name: 'ControllerUser',
-    component: ControleUser,
-    label: 'Usuários',
-    iconName: 'people'
-  }
-];
 
 const TabIcon = ({ iconName, color, size, borderTopWidth }) => (
   <View style={{ alignItems: 'center', paddingTop: borderTopWidth }}>

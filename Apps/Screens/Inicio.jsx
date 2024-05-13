@@ -13,6 +13,7 @@ export default function Inicio() {
    const [fazendas, setFazendas] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
    const { idUser } = useAuth();
+   
 
    useEffect(() => {
       async function fetchFazendas() {

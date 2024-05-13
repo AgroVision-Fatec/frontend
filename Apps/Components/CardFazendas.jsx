@@ -16,6 +16,7 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
     const [editedCoordinates, setEditedCoordinates] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const [fazendaInfo, setFazendaInfo] = useState([]);
+    
 
     useEffect(() => {
         setFazendaInfo(fazenda);
