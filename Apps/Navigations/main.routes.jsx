@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Inicio from '../Screens/Inicio';
 import ControleUser from '../Screens/ControleUser';
 import Localizacao from '../Screens/Localizacao';
-import Test4 from '../Screens/Test4';
+import Dashboard from '../Screens/Dashboard';
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import Login from '../Screens/Login';
@@ -83,6 +83,33 @@ export default function TabNav() {
     </Tab.Navigator>
   );
 }
+
+const tabs = [
+  {
+    name: 'Inicio',
+    component: Inicio,
+    label: 'Início',
+    iconName: 'home'
+  },
+  {
+    name: 'Localizacao',
+    component: Localizacao,
+    label: 'Localizacao',
+    iconName: 'location-outline'
+  },
+  {
+    name: 'Dash',
+    component: Dashboard,
+    label: 'Dashboard',
+    iconName: 'trending-up'
+  },
+  {
+    name: 'ControllerUser',
+    component: ControleUser,
+    label: 'Usuários',
+    iconName: 'people'
+  }
+];
 
 const TabIcon = ({ iconName, color, size, borderTopWidth }) => (
   <View style={{ alignItems: 'center', paddingTop: borderTopWidth }}>

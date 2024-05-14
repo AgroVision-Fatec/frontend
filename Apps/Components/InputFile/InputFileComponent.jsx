@@ -69,7 +69,10 @@ export default function InputFileComponent() {
       });
     
 
-      navigation.navigate('Inicio')
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Main' }],
+      });
     } catch (error) {
       console.error('Erro ao enviar arquivos:', error.response.data);
     }

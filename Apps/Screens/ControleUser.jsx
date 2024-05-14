@@ -1,16 +1,45 @@
-import React, { useState } from 'react';
-import { View, Button, ScrollView, Text, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker';
+import React, { useState , useEffect} from 'react';
+import { View, Button, ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/core';
+import api from '../Services/Axios';
 
 export default function ControleUser() {
+const [users, setUsers] = useState([]);
+const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    
+    async function fetchUsers() {
+       try {
+          const response = await api.get(`/users`);
+          setUsers(response.data);
+          setIsLoading(false);
+       } catch (error) {
+          console.log('Erro ao buscar fazendas:', error);
+          setIsLoading(false);
+       }
+    }
+    fetchUsers();
+ }, 
+ []);
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/users/${id}`);
+      setUsers(users.filter(user => user.id !== id));
+    } catch (error) {
+      console.log('Erro ao deletar usuário:', error);
+    }
+  };
+
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.textSubTitle}>Usuários</Text>
       <View style={styles.scrollContainer}>
         <ScrollView style={styles.listContainer}>
-          <View style={styles.Arquivos}>
+          {users.map((user, index) => (
+          <View style={styles.Arquivos} key={index}>
             <View style={styles.secondBox}>
               <Ionicons name="person" size={30} color="#8DC63E" style={styles.icon} />
               <Text style={styles.itemText}>Usuario</Text>
@@ -20,11 +49,14 @@ export default function ControleUser() {
                 size={30}
                 color="#C21111"
                 style={styles.icon}
+                onPress={() => handleDelete(user.id_usuario)}
               />
           </View>
+          ))}
         </ScrollView>
         <TouchableOpacity
           style={styles.sendButton}
+          onPress={() => navigation.navigate("CadastroUsuario")}
         >
           <View>
             <Text style={styles.cadButtonText}>Novo Usuario</Text>
@@ -33,9 +65,7 @@ export default function ControleUser() {
       </View>
     </View>
   )
-
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
