@@ -37,7 +37,7 @@ export default function CadastroUsuario() {
             index: 0,
             routes: [{ name: 'Main' }],
           })}>
-              <Ionicons name="arrow-back" size={45} color="#C21111" style={styles.icon} />
+              <Ionicons name="arrow-back" size={45} color="#F45D16" style={styles.icon} />
           </TouchableOpacity>
           <Text style={styles.textTitle}>Novo Usuário</Text>
         </View>

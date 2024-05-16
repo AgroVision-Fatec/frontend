@@ -6,10 +6,11 @@ import { StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 
-export default function MapaComponent() {
+export default function MapaComponent({idFazenda}) {
     const [userLocation, setUserLocation] = useState(null)
+    const [layout, setLayout] = useState(null);
+    const mapRef = useRef(null);
 
-    const mapRef = useRef(MapView)
 
     async function requestLocationPermission() {
         const {granted} = await requestForegroundPermissionsAsync();
@@ -24,18 +25,31 @@ export default function MapaComponent() {
     }, [])
 
     useEffect(() => {
-        watchPositionAsync({
-            accuracy: LocationAccuracy.Highest,
-            timeInterval: 1000,
-            distanceInterval: 1
-        }, (response) => {
-            setUserLocation(response)
-            mapRef.current?.animateCamera({
-                center: response.coords
-            })
-        })
-    }, [])
+        if (mapRef.current) {
+            watchPositionAsync({
+                accuracy: LocationAccuracy.Highest,
+                timeInterval: 1000,
+                distanceInterval: 1
+            }, (response) => {
+                setUserLocation(response);
+                mapRef.current.animateCamera({
+                    center: response.coords
+                });
+            });
+            mapRef.current = mapRef;
+        }
+    }, []);
 
+    const onLayout = (event) => {
+        const { width, height } = event.nativeEvent.layout;
+        if (width > 0 && height > 0) {
+            setLayout({ width, height });
+        }
+    };
+
+
+
+    /// consultar coordendas a partir do idFazenda
     const baseLatitude = -23.252397187217248;
     const baseLongitude = -45.88726586466118;
     const variation = 0.0005;
@@ -48,12 +62,10 @@ export default function MapaComponent() {
         { latitude: baseLatitude + 5*variation, longitude: baseLongitude - 2*variation }
     ];
 
-    return (
-        <View style={styles.container}>
-            
-            {
-                userLocation  && 
-                <MapView 
+   return (
+        <View style={styles.container} onLayout={onLayout}>
+            {layout && userLocation && (
+                <MapView
                     ref={mapRef}
                     style={styles.map}
                     initialRegion={{
@@ -62,30 +74,23 @@ export default function MapaComponent() {
                         latitudeDelta: 0.005,
                         longitudeDelta: 0.005
                     }}
-                 >
-
-                    <Marker 
+                >
+                    <Marker
                         coordinate={{
                             latitude: userLocation.coords.latitude,
                             longitude: userLocation.coords.longitude,
-                        }}                    
-                    >
-                        {/* <Ionicons name={"location-outline"} size={30} color={"red"} /> */}
-                    </Marker>
-
-                    <Polygon 
+                        }}
+                    />
+                    <Polygon
                         coordinates={areaCoordinates}
                         fillColor="rgba(0, 200, 0, 0.5)" // dentro
                         strokeColor="rgba(0, 0, 0, 0.5)" // borda
                         strokeWidth={2} // largura borda
-
                     />
-
                 </MapView>
-            }
-
+            )}
         </View>
-    )
+    );
 }
 
 
