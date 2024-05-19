@@ -56,7 +56,22 @@ export default function InputFileComponent() {
             type: file.type,
           });
         }
+        if (file.name === "FATEC_LocalArmadilhas") {
+          formData.append(`file`, {
+            uri: file.uri,
+            name: file.name,
+            type: file.type,
+          });
+        }
+        if (file.name === "FATEC_Talhoes") {
+          formData.append(`file`, {
+            uri: file.uri,
+            name: file.name,
+            type: file.type,
+          });
+        }
       });
+
 
 
       console.log('usuario a enviar a fazenda: ' + idUser)

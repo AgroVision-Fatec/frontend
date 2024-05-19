@@ -24,6 +24,7 @@ export default function Login() {
 
       const user = await getUserByEmail(email);
       setIdUser(user.id_usuario);
+      setRole(user.role);
 
       
       api.interceptors.request.use(async config => {
