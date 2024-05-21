@@ -15,6 +15,7 @@ export default function Inicio() {
   const [totalArmadilhas, setTotalArmadilhas] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const { idUser } = useAuth();
+  const { role } = useAuth();
 
   useEffect(() => {
     async function fetchFazendas() {
@@ -40,7 +41,7 @@ export default function Inicio() {
     fetchFazendas();
     fetchTotalArmadilhas();
   }, []);
-
+  console.log(role)
   return (
     <ScrollView>
       <Text style={styles.textTitle}>Agro Vision</Text>

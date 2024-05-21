@@ -6,9 +6,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async config => {
-  console.log('batendo request')
   const token = await AsyncStorage.getItem('Token');
-  console.log('token: + '+token)
   if (token) {
     config.headers.Authorization = `Bearer ${token} `;
   }
