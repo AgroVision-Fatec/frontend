@@ -21,8 +21,7 @@ const MapaComponent = ({ idFazenda }) => {
   const [mapReady, setMapReady] = useState(false);
   const mapRef = useRef(null);
   const locationWatcher = useRef(null);
-  
-  console.log('Fazenda selecionada: ' + idFazenda)
+
 
   async function requestLocationPermission() {
     const { granted } = await requestForegroundPermissionsAsync();
