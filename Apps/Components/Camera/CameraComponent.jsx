@@ -72,14 +72,15 @@ export default function CameraComponent() {
         //   body: data,
         // });
 
-        // const s3 = await api.post("/files/upload", data, {
-        //   headers: {
-        //     "Content-Type": "multipart/form-data",
-        //   },
-        // });
+        const s3 = await api.post("/files/upload", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
 
-        
+        const dataAtual = new Date();
+        const data_formatada = dataAtual.toISOString().slice(0,19).replace('T', ' ')
         // PRECISO DE UMA LOGICA PARA CAPTURAR O ID DA ARMADILHA PARA CADASTRAR NELA, ver com grupo
         const processamento_pragas = await axios.post('http://192.168.0.2:5000/processar-imagem', data_IA, {
             headers: {
@@ -93,7 +94,7 @@ export default function CameraComponent() {
             const armazenando_dados_pragas = await api.post('/dados-armadilhas', {
               "tipo_praga":"praga",
               "quantidade":parseFloat(response.data.resultado),
-              "data_coleta": "2023-10-01T14:41",
+              "data_coleta": data_formatada,
               "id_armadilha": 1
             })
           })
