@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/core';
 import { Ionicons } from '@expo/vector-icons';
 import Agro from '../../assets/Agro.jpeg';
 import Agro2 from '../../assets/Agro2.jpeg';
+import Agro3 from '../../assets/Agro3.jpeg'
+import Agro4 from '../../assets/Agro4.jpg'
 import api from '../Services/Axios';
 
 export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, setFazendas, fazenda }) {
@@ -16,6 +18,7 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
     const [editedCoordinates, setEditedCoordinates] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const [fazendaInfo, setFazendaInfo] = useState([]);
+
     
 
     useEffect(() => {
@@ -75,10 +78,19 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
         }
     };
 
+
+    const openMap = async(id_fazenda, nomeFazenda) => {
+        navigation.navigate('Localizacao', {idFazenda: id_fazenda, nomeFazenda: nomeFazenda});
+    }
+
+
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
             <View style={styles.BoxFazenda}>
-                <Image source={Agro} style={styles.image} />
+                <TouchableOpacity onPress={() => openMap(idFazenda, title)}>
+                    <Image source={Agro3} style={styles.image}/>
+                </TouchableOpacity>
+
                 <View style={styles.primaryBox}>
                     <Text style={styles.boxText}>{title}</Text>
                     <View style={styles.infoContainer}>
@@ -128,6 +140,7 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
             {/* Modal para confirmar exclusão */}
             <Modal visible={isDeleteModalVisible} animationType="slide">
                 <View style={styles.modalContainer}>
+                    <Text style={styles.modalTitle}>Excluir</Text>
                     <Text style={styles.textStyle}>Deseja realmente excluir esta fazenda?</Text>
                     <View style={styles.containerButton}>
                         <TouchableOpacity style={styles.registerButton} onPress={toggleDeleteModal}>
@@ -143,6 +156,7 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
             {/* Modal para edição */}
             <Modal visible={isEditModalVisible} animationType="slide">
                 <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>Editar</Text>
                     <TextInput
                         placeholder="Nome"
                         value={editedName}

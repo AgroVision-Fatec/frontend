@@ -16,6 +16,7 @@ export default function TabNav() {
   const { role } = useAuth();
   const { idUser } = useAuth();
   console.log(idUser);
+  console.log('role+'+role)
   return (
     <Tab.Navigator
       screenOptions={{
@@ -42,7 +43,7 @@ export default function TabNav() {
           )
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Localizacao"
         component={Localizacao}
         options={{
@@ -53,7 +54,7 @@ export default function TabNav() {
             <TabIcon iconName="location-outline" color={color} size={size} />
           )
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Dash"
         component={Login}
