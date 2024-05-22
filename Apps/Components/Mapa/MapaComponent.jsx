@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     flex: 1,
-    width: '100%',
+    width: '95%',
   },
   map: {
     flex: 1,
@@ -267,21 +267,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   legendContainer: {
-    backgroundColor: '#323335',
+    backgroundColor: '#E4E4E4',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 10,
   },
   legendItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 20,
   },
   legendText: {
-    marginLeft: 5,
     color: '#fff',
-    fontSize: 16,
+    fontSize: 11,
   },
 });
 

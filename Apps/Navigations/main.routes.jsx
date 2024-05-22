@@ -9,6 +9,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import Login from '../Screens/Login';
 import { useAuth } from '../Context/authContext';
+import FazendaUnica from '../Screens/FazendaUnica';
 
 const Tab = createBottomTabNavigator();
 

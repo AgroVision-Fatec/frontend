@@ -11,6 +11,7 @@ import Login from '../Screens/Login';
 import { AuthProvider } from '../Context/authContext';
 import CadastroUsuario from '../Screens/CadastroUsuario';
 import Localizacao from '../Screens/Localizacao';
+import FazendaUnica from '../Screens/FazendaUnica';
 
 
 
@@ -29,6 +30,7 @@ export default function AppNavigator() {
             <Stack.Screen name="CadastroArmadilhas" component={CameraComponent} options={{ headerShown: false }} />
             <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} options={{ headerShown: false }} />
             <Stack.Screen name="Localizacao" component={Localizacao} options={{ headerShown: false }} />
+            <Stack.Screen name="FazendaUnica" component={FazendaUnica} options={{ headerShown: false }} />
         </Stack.Navigator>
         </AuthProvider>
     );
