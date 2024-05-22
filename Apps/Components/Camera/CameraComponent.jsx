@@ -12,6 +12,8 @@ import {
 import { Camera } from "expo-camera";
 import { FontAwesome } from "@expo/vector-icons";
 import api from "../../Services/Axios";
+import { useRoute } from "@react-navigation/core";
+import {useNavigation} from "@react-navigation/core";
 
 import axios from "axios";
 
@@ -23,6 +25,13 @@ export default function CameraComponent() {
   const [isSaving, setIsSaving] = useState(false);
   const [totalPragas, setTotalPragas] = useState(0)
   const camRef = useRef(null);
+
+  const navigation = useNavigation()
+
+
+  const route = useRoute()
+  const {idArmadilha} = route.params;
+
 
   useEffect(() => {
     (async () => {
@@ -81,7 +90,6 @@ export default function CameraComponent() {
 
         const dataAtual = new Date();
         const data_formatada = dataAtual.toISOString().slice(0,19).replace('T', ' ')
-        // PRECISO DE UMA LOGICA PARA CAPTURAR O ID DA ARMADILHA PARA CADASTRAR NELA, ver com grupo
         const processamento_pragas = await axios.post('http://192.168.0.2:5000/processar-imagem', data_IA, {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -95,13 +103,15 @@ export default function CameraComponent() {
               "tipo_praga":"praga",
               "quantidade":parseFloat(response.data.resultado),
               "data_coleta": data_formatada,
-              "id_armadilha": 1
+              "id_armadilha": idArmadilha
             })
+            navigation.navigate('Main')
           })
           .catch(error => {
             console.error("Erro no upload:", error);
           });
 
+        
 
 
    

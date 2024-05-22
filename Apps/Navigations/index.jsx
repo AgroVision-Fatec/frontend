@@ -25,6 +25,7 @@ export default function AppNavigator() {
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="Inicio" component={Inicio} options={{ headerShown: false }} />
             <Stack.Screen name="Main" component={TabNav} options={{ headerShown: false }} />
+            <Stack.Screen name="Camera" component={CameraComponent} options={{ headerShown: false }} />
             <Stack.Screen name="CadastroFazendas" component={InputFileComponent} options={{ headerShown: false }} />
             <Stack.Screen name="CadastroArmadilhas" component={SelectFazendaTalhaoArmadilhas} options={{ headerShown: false }} />
             <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} options={{ headerShown: false }} />
