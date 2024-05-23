@@ -58,7 +58,7 @@ export default function TabNav() {
       /> */}
       <Tab.Screen
         name="Dash"
-        component={Login}
+        component={Dashboard}
         options={{
           tabBarLabel: ({ color }) => (
             <Text style={{ color: color, fontSize: 12, marginBottom: 3 }}>Dashboard</Text>

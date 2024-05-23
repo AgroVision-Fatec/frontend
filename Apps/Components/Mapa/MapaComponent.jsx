@@ -7,7 +7,7 @@ import icon_location2 from '../../../assets/icon_location2.png';
 const LegendItem = ({ color, text, icon }) => {
   return (
     <View style={styles.legendItem}>
-      <Image source={icon} style={{ width: 24, height: 24, tintColor: color }} />
+      <Image source={icon} style={{ width: 28, height: 28, tintColor: color }} />
       <Text style={styles.legendText}>{text}</Text>
     </View>
   );
@@ -218,11 +218,13 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     flex: 1,
-    width: '95%',
+    width: '100%',
+    maxHeight: '95%',
   },
   map: {
     flex: 1,
-    width: '100%'
+    width: '100%',
+    maxHeight: '95%',
   },
   modalScrollViewContainer: {
     flexGrow: 1,
@@ -267,7 +269,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   legendContainer: {
-    backgroundColor: '#E4E4E4',
+    backgroundColor: '#323335',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -275,10 +277,14 @@ const styles = StyleSheet.create({
   legendItem: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginRight: 20,
+    paddingBottom: 20,
   },
   legendText: {
     color: '#fff',
-    fontSize: 11,
+    fontSize: 16,
+    marginLeft: 10,
+    fontWeight: 'bold',
   },
 });
 

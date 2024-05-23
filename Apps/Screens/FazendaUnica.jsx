@@ -1,10 +1,10 @@
-import MapaComponent from "../Components/Mapa/MapaComponent";
 import { useRoute } from '@react-navigation/native';
 import { Text, View, TouchableOpacity, Modal, ScrollView, TextInput} from "react-native";
 import { Ionicons } from '@expo/vector-icons'; 
 import { StyleSheet } from "react-native";
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core';
+import MapaComponent from "../Components/Mapa/MapaComponent";
 
 
 export default function FazendaUnica() {
@@ -23,6 +23,7 @@ export default function FazendaUnica() {
     
 
     useEffect(() => {
+        console.log(idFazenda)
         setFazendaInfo(fazenda);
      }, []);
 
@@ -85,28 +86,43 @@ export default function FazendaUnica() {
                 <Text style={styles.mainTitle}>{title}</Text>
             </View>
             <View style={styles.infoContainer}>
-                <Text style={styles.textStyle}>Número de armadilhas: {numArmadilhas}</Text>
-                <Text style={styles.textStyle}>Número de pragas: {numPragas}</Text>
+                <View style={styles.textContainer}>
+                    <Text style={dynamicStyle.numberArmadilhas}>12</Text>
+                    <Text style={dynamicStyle.subTitleArmadilhas}>Armadilhas Cadastradas</Text>
+                </View>
+                <View style={styles.textContainer}>
+                    <Text style={dynamicStyle.numberTalhoes}>542</Text>
+                    <Text style={dynamicStyle.subTitleTalhoes}>Talhões Reconhecidas</Text>
+                </View>
+                <View style={styles.textContainer}>
+                    <Text style={dynamicStyle.numberPragas}>542</Text>
+                    <Text style={dynamicStyle.subTitlePragas}>Pragas Reconhecidas</Text>
+                </View>
             </View>
+
+            <View style={styles.mapContainer}>
+                <MapaComponent idFazenda={idFazenda} />
+            </View>
+
             <View style={styles.editDeleteButton}>
                 <View style={styles.newContainer}>
                     <TouchableOpacity style={styles.addButton} onPress={toggleDeleteModal}>
-                        <Ionicons name="add" size={34} color="#323335" />
-                        <Text>Talhão</Text>
+                        <Ionicons name="add" size={34} color="#fff" />
+                        <Text style={styles.buttonTextColor}>Talhão</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.addButton} onPress={toggleDeleteModal}>
-                        <Ionicons name="add" size={34} color="#323335" />
-                        <Text>Armadilha</Text>
+                        <Ionicons name="add" size={34} color="#fff" />
+                        <Text style={styles.buttonTextColor}>Armadilha</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.editDeleteContainer}>
                     <TouchableOpacity style={styles.editButton} onPress={toggleEditModal}>
-                        <Ionicons name="create" size={24} color="#323335" />
-                        <Text>Editar</Text>
+                        <Ionicons name="create" size={24} color="#fff" />
+                        <Text style={styles.buttonTextColor}>Editar</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.deleteButton} onPress={toggleDeleteModal}>
-                        <Ionicons name="trash" size={24} color="#C21111" />
-                        <Text>Excluir</Text>
+                        <Ionicons name="trash" size={24} color="#fff" />
+                        <Text style={styles.buttonTextColor}>Excluir</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -178,6 +194,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         paddingBottom: 40,
+        paddingRight: 60,
     },
     mainTitle: {
         color: 'white',
@@ -207,7 +224,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#ccc',
+        backgroundColor: '#A66B3A',
         borderRadius: 5,
         gap: 10,
         padding: 10,
@@ -217,17 +234,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#ccc',
+        backgroundColor: '#C21211',
         borderRadius: 5,
         gap: 10,
         padding: 10,
         width: '45%',
+        height: 55,
     },
     addButton: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#ccc',
+        backgroundColor: '#8DC63E',
+        color: 'white',
         borderRadius: 5,
         padding: 10,
         gap: 5,
@@ -302,4 +321,63 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 30,
     },
+    mapContainer: {
+        flex: 1,
+        width: '100%',
+        maxHeight: '70%',
+    },
+    infoContainer: {
+        width: "100%",
+        maxHeight: 300,
+        margin: 0,
+        paddingBottom: 20,
+        // flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    textContainer: {
+        flex: 1,
+        maxWidth: 120,
+        minHeight: 100,
+        borderRadius: 10,
+        backgroundColor: "#E4E4E4",
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    buttonTextColor: {
+        color: 'white'
+    },  
 });
+
+const dynamicStyle = {
+    numberArmadilhas: {
+        color: '#8DC63E',
+        fontSize: 35,
+        fontWeight: 'bold',
+     },
+     subTitleArmadilhas: {
+        color: '#8DC63E',
+        fontSize: 14,
+        fontWeight: 'bold',
+     },
+     numberPragas: {
+        color: '#C80000',
+        fontSize: 35,
+        fontWeight: 'bold',
+     },
+     subTitlePragas: {
+        color: '#C80000',
+        fontSize: 14,
+        fontWeight: 'bold',
+     },
+     numberTalhoes: {
+        color: '#A66B3A',
+        fontSize: 35,
+        fontWeight: 'bold',
+     },
+     subTitleTalhoes: {
+        color: '#A66B3A',
+        fontSize: 14,
+        fontWeight: 'bold',
+     },
+};

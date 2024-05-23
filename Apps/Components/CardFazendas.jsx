@@ -33,7 +33,8 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
             <TouchableOpacity onPress={() => abrirFazenda()}>
                 <View style={styles.BoxFazenda}>
-                    <MapaComponent idFazenda={idFazenda}/>
+                    {/* <MapaComponent idFazenda={idFazenda}/> */}
+                    <Image source={Agro3} style={styles.image}/>
 
                     <View style={styles.primaryBox}>
                         <Text style={styles.boxText}>{title}</Text>
