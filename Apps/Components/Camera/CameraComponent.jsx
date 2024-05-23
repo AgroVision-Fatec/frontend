@@ -81,6 +81,7 @@ export default function CameraComponent() {
         //   body: data,
         // });
 
+        
         const s3 = await api.post("/files/upload", data, {
           headers: {
             "Content-Type": "multipart/form-data",
