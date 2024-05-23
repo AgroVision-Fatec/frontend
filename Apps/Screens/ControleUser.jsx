@@ -42,7 +42,7 @@ const [isLoading, setIsLoading] = useState(true);
           <View style={styles.Arquivos} key={index}>
             <View style={styles.secondBox}>
               <Ionicons name="person" size={30} color="#8DC63E" style={styles.icon} />
-              <Text style={styles.itemText}>Usuario</Text>
+              <Text style={styles.itemText}>{user.nome}</Text>
             </View>
             <Ionicons
                 name="trash"

@@ -4,172 +4,54 @@ import { useNavigation } from '@react-navigation/core';
 import { Ionicons } from '@expo/vector-icons';
 import Agro from '../../assets/Agro.jpeg';
 import Agro2 from '../../assets/Agro2.jpeg';
+import Agro3 from '../../assets/Agro3.jpeg'
+import Agro4 from '../../assets/Agro4.jpg'
 import api from '../Services/Axios';
+import MapaComponent from './Mapa/MapaComponent';
 
 export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, setFazendas, fazenda }) {
     const navigation = useNavigation();
 
-    const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
-    const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [editedName, setEditedName] = useState(title);
     const [editedType, setEditedType] = useState('');
     const [editedCoordinates, setEditedCoordinates] = useState('');
-    const [modalVisible, setModalVisible] = useState(false);
     const [fazendaInfo, setFazendaInfo] = useState([]);
+
+    
 
     useEffect(() => {
         setFazendaInfo(fazenda);
      }, []);
 
-    const toggleModal = () => {
-        setModalVisible(!modalVisible);
-    };
 
-    const toggleDeleteModal = () => {
-        setDeleteModalVisible(!isDeleteModalVisible);
-    };
+    const abrirFazenda = async() => {
+        navigation.navigate('FazendaUnica', { idFazenda, title, numArmadilhas, numPragas, setFazendas, fazenda });
+    }
 
-    const toggleEditModal = () => {
-        setEditModalVisible(!isEditModalVisible);
-    };
-
-    const handleDelete = async () => {
-        try {
-            await api.delete(`/fazendas/${idFazenda}`);
-            setFazendas(prevFazendas => prevFazendas.filter(fazenda => fazenda.id_fazenda !== idFazenda));
-
-            toggleDeleteModal();
-        } catch (error) {
-            console.error('Erro ao deletar fazenda:', error);
-        }
-    };
-
-    const handleSaveEdit = async () => {
-        try {
-            await api.put(`/fazendas/${idFazenda}`, {
-                "nome": editedName,
-                "tipoCoordenada": editedType,
-                "coordenadas": editedCoordinates
-            });
-            setFazendas(prevFazendas => {
-                return prevFazendas.map(fazenda => {
-                    if (fazenda.id_fazenda === idFazenda) {
-                        return {
-                            ...fazenda,
-                            nome: editedName,
-                        };
-                    }
-                    return fazenda;
-                });
-            });
-    
-            toggleEditModal();
-
-            navigation.reset({
-                index: 0,
-                routes: [{ name: 'Main' }],
-            });
-        } catch (error) {
-            console.error('Erro ao salvar edições da fazenda:', error);
-        }
-    };
 
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-            <View style={styles.BoxFazenda}>
-                <Image source={Agro} style={styles.image} />
-                <View style={styles.primaryBox}>
-                    <Text style={styles.boxText}>{title}</Text>
-                    <View style={styles.infoContainer}>
-                        {/* <View style={styles.textContainer}>
-                            <Text style={dynamicStyle.numberArmadilhas}>{numArmadilhas}</Text>
-                            <Text style={dynamicStyle.subTitleArmadilhas}>armadilhas cadastradas</Text>
-                        </View> */}
-                        <View style={styles.editDeleteButton}>
-                            <TouchableOpacity style={styles.editButton} onPress={toggleEditModal}>
-                                <Ionicons name="create" size={24} color="#323335" />
-                                <Text>Editar</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.deleteButton} onPress={toggleDeleteModal}>
-                                <Ionicons name="trash" size={24} color="#C21111" />
-                                <Text>Excluir</Text>
-                            </TouchableOpacity>
+            <TouchableOpacity onPress={() => abrirFazenda()}>
+                <View style={styles.BoxFazenda}>
+                    <MapaComponent idFazenda={idFazenda}/>
+
+                    <View style={styles.primaryBox}>
+                        <Text style={styles.boxText}>{title}</Text>
+                        <View style={styles.infoContainer}>
+                            <View style={styles.textContainer}>
+                                <Text style={dynamicStyle.numberArmadilhas}>12</Text>
+                                <Text style={dynamicStyle.subTitleArmadilhas}>armadilhas cadastradas</Text>
+                            </View>
+                            <View style={styles.textEditDeleteContainer}>
+                                <View style={styles.textContainer}>
+                                    <Text style={dynamicStyle.numberPragas}>542</Text>
+                                    <Text style={dynamicStyle.subTitlePragas}>pragas reconhecidas</Text>
+                                </View>
+                            </View>
                         </View>
-                        <TouchableOpacity onPress={toggleModal}>
-                            <Text style={styles.closeButton} >Ver mais</Text>
-                        </TouchableOpacity>
-                        {/* <View style={styles.textEditDeleteContainer}> */}
-                            {/* <View style={styles.textContainer}>
-                                <Text style={dynamicStyle.numberPragas}>{numPragas}</Text>
-                                <Text style={dynamicStyle.subTitlePragas}>pragas reconhecidas</Text>
-                            </View> */}
-                        {/* </View> */}
                     </View>
                 </View>
-            </View>
-
-            {/* Modal */}
-            <Modal visible={modalVisible} animationType="slide">
-                <ScrollView contentContainerStyle={styles.modalScrollViewContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>{title}</Text>
-                        <Text style={styles.textStyle}>Número de armadilhas: {numArmadilhas}</Text>
-                        <Text style={styles.textStyle}>Número de pragas: {numPragas}</Text>
-                        {/* <Text style={styles.textStyle}>Tipo: {fazendaInfo ? fazendaInfo.tipoCoordenada : 'Carregando...'}</Text> */}
-                        {/* <Text style={styles.textStyle}>Coordenadas: {fazendaInfo ? fazendaInfo.coordenadas : 'Carregando...'}</Text> */}
-                        <TouchableOpacity style={styles.registerButton} onPress={toggleModal}>
-                            <Text style={styles.registerButtonText}>Cancelar</Text>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
-            </Modal>
-
-            {/* Modal para confirmar exclusão */}
-            <Modal visible={isDeleteModalVisible} animationType="slide">
-                <View style={styles.modalContainer}>
-                    <Text style={styles.textStyle}>Deseja realmente excluir esta fazenda?</Text>
-                    <View style={styles.containerButton}>
-                        <TouchableOpacity style={styles.registerButton} onPress={toggleDeleteModal}>
-                                <Text style={styles.registerButtonText}>Cancelar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.registerButton} onPress={handleDelete}>
-                            <Text style={styles.registerButtonText}>Excluir</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
-
-            {/* Modal para edição */}
-            <Modal visible={isEditModalVisible} animationType="slide">
-                <View style={styles.modalContainer}>
-                    <TextInput
-                        placeholder="Nome"
-                        value={editedName}
-                        onChangeText={setEditedName}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        placeholder="Tipo"
-                        value={editedType}
-                        onChangeText={setEditedType}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        placeholder="Coordenadas"
-                        value={editedCoordinates}
-                        onChangeText={setEditedCoordinates}
-                        style={styles.input}
-                    />
-                    <View style={styles.containerButton}>
-                        <TouchableOpacity style={styles.registerButton} onPress={toggleEditModal}>
-                            <Text style={styles.registerButtonText}>Cancelar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.registerButton} onPress={handleSaveEdit}>
-                            <Text style={styles.registerButtonText}>Salvar</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
+            </TouchableOpacity>
         </ScrollView>
     );
 }
@@ -247,12 +129,25 @@ const styles = StyleSheet.create({
     },  
     editDeleteButton: {
         flex: 1, 
-        alignItems: 'flex-start',
-        flexDirection: 'row',
+        // alignItems: 'flex-start',
+        flexDirection: 'column',
         gap: 10,
     },
+    editDeleteContainer: {
+        flex: 1, 
+        flexDirection: 'row',
+        gap: 10,
+        maxWidth: 62,
+    },
+    newContainer: {
+        flex: 1, 
+        flexDirection: 'row',
+        gap: 10,
+        maxWidth: 62,
+        minHeight: 22,
+    },
     infoContainer: {
-        width: 130,
+        width: 127,
         maxHeight: 170,
         margin: 0,
         padding: 0,

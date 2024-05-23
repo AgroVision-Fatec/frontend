@@ -10,7 +10,7 @@ export default function Login() {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const { getUserByEmail, setIdUser } = useAuth();
+  const { getUserByEmail, setIdUser , setRole} = useAuth();
 
   const handleLogin = async () => {
     try {
@@ -24,6 +24,7 @@ export default function Login() {
 
       const user = await getUserByEmail(email);
       setIdUser(user.id_usuario);
+      setRole(user.role);
 
       
       api.interceptors.request.use(async config => {
@@ -36,10 +37,11 @@ export default function Login() {
 
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Main' }], // Aqui é onde você navega para a TabNav
+        routes: [{ name: 'Main' }], 
       });
     } catch (error) {
-      Alert.alert('Erro', 'Usuário ou senha incorretos. Por favor, tente novamente.');
+      
+      Alert.alert('Erro', 'Usuário ou senha incorretos. Por favor, tente novamenteee.');
     }
   };
 
