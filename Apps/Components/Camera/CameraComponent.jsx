@@ -12,6 +12,9 @@ import {
 import { Camera } from "expo-camera";
 import { FontAwesome } from "@expo/vector-icons";
 import api from "../../Services/Axios";
+import { useRoute } from "@react-navigation/core";
+import {useNavigation} from "@react-navigation/core";
+
 import axios from "axios";
 
 export default function CameraComponent() {
@@ -20,7 +23,15 @@ export default function CameraComponent() {
   const [capturedPhoto, setCapturedPhoto] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [totalPragas, setTotalPragas] = useState(0)
   const camRef = useRef(null);
+
+  const navigation = useNavigation()
+
+
+  const route = useRoute()
+  const {idArmadilha} = route.params;
+
 
   useEffect(() => {
     (async () => {
@@ -58,16 +69,54 @@ export default function CameraComponent() {
           name: "photo.jpg",
         });
 
+        const data_IA = new FormData();
+        data_IA.append("imagem", {
+          uri: capturedPhoto,
+          type: "image/jpeg",
+          name: "imagem.jpg"
+        })
+
         // const response = await fetch("http://192.168.28.72:3000/files/upload", {
         //   method: "POST",
         //   body: data,
         // });
 
-        const sla = await api.post("/files/upload", data, {
+        
+        const s3 = await api.post("/files/upload", data, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+
+
+        const dataAtual = new Date();
+        const data_formatada = dataAtual.toISOString().slice(0,19).replace('T', ' ')
+        const processamento_pragas = await axios.post('http://192.168.0.2:5000/processar-imagem', data_IA, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then(async response => {
+            console.log('resultado do processamento de pragas: ', response.data);
+            setTotalPragas(response.data.resultado)
+            console.log(typeof(response.data.resultado))
+            const armazenando_dados_pragas = await api.post('/dados-armadilhas', {
+              "tipo_praga":"praga",
+              "quantidade":parseFloat(response.data.resultado),
+              "data_coleta": data_formatada,
+              "id_armadilha": idArmadilha
+            })
+            navigation.navigate('Main')
+          })
+          .catch(error => {
+            console.error("Erro no upload:", error);
+          });
+
+        
+
+
+   
+
       } catch (error) {
         console.error("Upload error:", error);
       } finally {
