@@ -92,7 +92,7 @@ export default function FazendaUnica() {
                 </View>
                 <View style={styles.textContainer}>
                     <Text style={dynamicStyle.numberTalhoes}>542</Text>
-                    <Text style={dynamicStyle.subTitleTalhoes}>Talhões Reconhecidas</Text>
+                    <Text style={dynamicStyle.subTitleTalhoes}>Talhões Reconhecidos</Text>
                 </View>
                 <View style={styles.textContainer}>
                     <Text style={dynamicStyle.numberPragas}>542</Text>
@@ -106,23 +106,23 @@ export default function FazendaUnica() {
 
             <View style={styles.editDeleteButton}>
                 <View style={styles.newContainer}>
-                    <TouchableOpacity style={styles.addButton} onPress={toggleDeleteModal}>
-                        <Ionicons name="add" size={34} color="#fff" />
-                        <Text style={styles.buttonTextColor}>Talhão</Text>
+                    <TouchableOpacity style={styles.addButton} onPress={() => {console.log("add talhão")}}>
+                        <Ionicons name="add" size={30} color="#fff" />
+                        <Text style={styles.buttonTextColor}>Talhão </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.addButton} onPress={toggleDeleteModal}>
-                        <Ionicons name="add" size={34} color="#fff" />
-                        <Text style={styles.buttonTextColor}>Armadilha</Text>
+                    <TouchableOpacity style={styles.addButton} onPress={() => {console.log("add armadilha")}}>
+                        <Ionicons name="add" size={30} color="#fff" />
+                        <Text style={styles.buttonTextColor}>Armadilha </Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.editDeleteContainer}>
                     <TouchableOpacity style={styles.editButton} onPress={toggleEditModal}>
                         <Ionicons name="create" size={24} color="#fff" />
-                        <Text style={styles.buttonTextColor}>Editar</Text>
+                        <Text style={styles.buttonTextColor}>Editar </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.deleteButton} onPress={toggleDeleteModal}>
                         <Ionicons name="trash" size={24} color="#fff" />
-                        <Text style={styles.buttonTextColor}>Excluir</Text>
+                        <Text style={styles.buttonTextColor}>Excluir </Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
         color: 'white',
         borderRadius: 5,
         padding: 10,
-        gap: 5,
+        // gap: 5,
         width: '45%',
     },
     closeButton: {

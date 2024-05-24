@@ -26,7 +26,8 @@ export default function CadastroUsuario() {
         routes: [{ name: 'Main' }],
       });
     } catch (error) {
-      Alert.alert('Erro', error.message);
+      console.log(error.response.data.message);
+      Alert.alert('Erro', error.response.data.message);
     };
   };
 
