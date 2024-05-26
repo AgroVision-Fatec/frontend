@@ -1,30 +1,78 @@
-import React, { useState } from 'react';
-import { View, Button, ScrollView, Text, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker';
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/core';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Button,
+  ScrollView,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import api from "../Services/Axios";
+import { useAuth } from "../Context/authContext";
+import { useNavigation } from "@react-navigation/core";
 
 export default function ControleUser() {
+  const { idUser } = useAuth();
+  const navigation = useNavigation();
+
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const response = await api.get(`/users`);
+        setUsers(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log("Erro ao buscar fazendas:", error);
+        setIsLoading(false);
+      }
+    }
+    fetchUsers();
+  }, []);
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/users/${id}`);
+      setUsers(users.filter((user) => user.id !== id));
+    } catch (error) {
+      console.log("Erro ao deletar usuário:", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.textSubTitle}>Usuários</Text>
       <View style={styles.scrollContainer}>
         <ScrollView style={styles.listContainer}>
-          <View style={styles.Arquivos}>
-            <View style={styles.secondBox}>
-              <Ionicons name="person" size={30} color="#8DC63E" style={styles.icon} />
-              <Text style={styles.itemText}>Usuario</Text>
-            </View>
-            <Ionicons
-                name="trash"
-                size={30}
-                color="#C21111"
-                style={styles.icon}
-              />
-          </View>
+          {users.map((user, index) =>
+            // se user.id === idUser, não exibir
+            user.id_usuario === idUser ? null : (
+              <View style={styles.Arquivos} key={index}>
+                <View style={styles.secondBox}>
+                  <Ionicons
+                    name="person"
+                    size={30}
+                    color="#8DC63E"
+                    style={styles.icon}
+                  />
+                  <Text style={styles.itemText}>{user.nome}</Text>
+                </View>
+                <Ionicons
+                  name="trash"
+                  size={30}
+                  color="#C21111"
+                  style={styles.icon}
+                  onPress={() => handleDelete(user.id_usuario)}
+                />
+              </View>
+            )
+          )}
         </ScrollView>
         <TouchableOpacity
           style={styles.sendButton}
+          onPress={() => navigation.navigate("CadastroUsuario")}
         >
           <View>
             <Text style={styles.cadButtonText}>Novo Usuario</Text>
@@ -32,69 +80,67 @@ export default function ControleUser() {
         </TouchableOpacity>
       </View>
     </View>
-  )
-
+  );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
     marginTop: 50,
-    backgroundColor: '#323335',
+    backgroundColor: "#323335",
   },
   mainTitle: {
-    color: 'white',
+    color: "white",
     fontSize: 35,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   scrollContainer: {
     height: 10,
     flex: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
+    alignItems: "flex-end",
+    justifyContent: "center",
   },
   containerText: {
     flex: 1,
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   sendButton: {
     marginTop: 10,
     marginBottom: 70,
     width: 150,
     height: 50,
-    backgroundColor: '#F45D16',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
+    backgroundColor: "#F45D16",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
     borderRadius: 10,
   },
   buttonContainer: {
     width: 350,
     height: 130,
-    backgroundColor: '#E2C0B0',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
+    backgroundColor: "#E2C0B0",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#F45D16',
-    borderStyle: 'dashed',
+    borderColor: "#F45D16",
+    borderStyle: "dashed",
     gap: 13,
   },
   cadButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   listContainer: {
     flex: 1,
     height: 15,
     width: 350,
     paddingHorizontal: 20,
-    backgroundColor: '#E4E4E4',
+    backgroundColor: "#E4E4E4",
     borderRadius: 10,
   },
   itemText: {
@@ -102,36 +148,35 @@ const styles = StyleSheet.create({
   },
   InboxText: {
     fontSize: 20,
-    color: '#F45D16',
-    fontWeight: 'bold',
+    color: "#F45D16",
+    fontWeight: "bold",
   },
   textTitle: {
     fontSize: 50,
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
     marginTop: 50,
     marginBottom: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   textSubTitle: {
     fontSize: 25,
-    color: '#fff',
+    color: "#fff",
     margin: 10,
     marginTop: 20,
     marginBottom: 10,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   Arquivos: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 10,
     marginTop: 20,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   secondBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     gap: 20,
   },
-
 });

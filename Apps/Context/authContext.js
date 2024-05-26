@@ -6,6 +6,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [idUser, setIdUser] = useState(null)
 
+    // tem q alterar antes de subir, deixei assim só pra testar
+    const [role, setRole] = useState('admin')
 
   
     const getUserByEmail = async (email) => {
@@ -21,7 +23,7 @@ export const AuthProvider = ({ children }) => {
 
   
     return (
-      <AuthContext.Provider value={{ getUserByEmail, idUser, setIdUser}}>
+      <AuthContext.Provider value={{ getUserByEmail, idUser, setIdUser ,role, setRole}}>
         {children}
       </AuthContext.Provider>
     );

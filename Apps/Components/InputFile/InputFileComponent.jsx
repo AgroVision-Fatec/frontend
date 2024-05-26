@@ -56,7 +56,22 @@ export default function InputFileComponent() {
             type: file.type,
           });
         }
+        if (file.name === "FATEC_LocalArmadilhas") {
+          formData.append(`file`, {
+            uri: file.uri,
+            name: file.name,
+            type: file.type,
+          });
+        }
+        if (file.name === "FATEC_Talhoes") {
+          formData.append(`file`, {
+            uri: file.uri,
+            name: file.name,
+            type: file.type,
+          });
+        }
       });
+
 
 
       console.log('usuario a enviar a fazenda: ' + idUser)
@@ -69,7 +84,10 @@ export default function InputFileComponent() {
       });
     
 
-      navigation.navigate('Inicio')
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Main' }],
+      });
     } catch (error) {
       console.error('Erro ao enviar arquivos:', error.response.data);
     }
@@ -93,7 +111,7 @@ export default function InputFileComponent() {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.navigate('Main')}>
-            <Ionicons name="arrow-back" size={45} color="#C21111" style={styles.icon} />
+            <Ionicons name="arrow-back" size={45} color="#F45D16" style={styles.icon} />
         </TouchableOpacity>
         <Text style={styles.mainTitle}>Importar Arquivos</Text>
       </View>
