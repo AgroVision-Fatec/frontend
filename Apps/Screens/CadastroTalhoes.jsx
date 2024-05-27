@@ -131,7 +131,7 @@ export default function CadastroTalhoes() {
             >
               <Picker.Item label="Selecione uma fazenda" value="" />
               {fazendas.map(option => (
-                <Picker.Item key={option.id_fazenda} label={option.id_fazenda} value={option.id_fazenda} />
+                <Picker.Item key={option.id_fazenda} label={option.nome_fazenda} value={option.id_fazenda} />
               ))}
             </Picker>
 

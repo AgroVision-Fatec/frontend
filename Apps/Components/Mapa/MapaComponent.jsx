@@ -28,6 +28,10 @@
     const [talhoesIsLoading, setTalhoesIsLoading] = useState(true)
     const [armadilhasIsLoading, setArmadilhasIsLoading] = useState(true)
     const [fazendaCoordenadas, setFazendaCoordenadas] = useState([])
+    const [talhoesCoordenadas, setTalhoesCoordenadas] = useState([])
+
+
+    const [idTalhoes, setIdTalhoes] = useState([])
 
 
     async function requestLocationPermission() {
@@ -80,20 +84,25 @@
       setModalVisible(true);
     }
 
+
+
+// buscando as fazendas
     useEffect(() => {
       const fetchFazendasCoordenadas = async () => {
         try {
-          const response = await api.get(`fazendas-coordenadas/${idFazenda}`);
+          const response_fazenda = await api.get(`fazendas-coordenadas/${idFazenda}`);
 
-          const coordenadas = response.data.map(coordenada => ({
+          const coordenadas_fazenda = response_fazenda.data.map(coordenada => ({
             latitude: coordenada.latitude,
             longitude: coordenada.longitude
           }));
+          setFazendaCoordenadas(coordenadas_fazenda);
 
 
-          setFazendaCoordenadas(coordenadas);
+
+        
         } catch (err) {
-          console.log('Erro ao buscar coordenadas da fazenda: ' + err);
+          console.log('Erro ao buscar coordenadas: ' + err);
         } finally {
           setFazendaIsLoading(false)
         }
@@ -101,6 +110,48 @@
 
       fetchFazendasCoordenadas();
     }, []);
+
+
+    useEffect(() => {
+      const getAllTalhoesID = async () => {
+        try {
+          const response = await api.get(`talhoes/findByIdFazenda/${idFazenda}`);
+          const talhoes = response.data;
+          const ids = talhoes.map(talhao => talhao.id_talhao);
+          setIdTalhoes(ids);
+        } catch (err) {
+          console.log('Erro ao buscar IDs de talhões: ' + err);
+        }
+      };
+  
+      getAllTalhoesID();
+    }, []);
+
+
+    useEffect(() => {
+      const getAllCoordsTalhoes = async () => {
+        try {
+          const allCoords = [];
+          for (const id of idTalhoes) {
+            const response = await api.get(`talhoes-coordenadas/${id}`);
+            const coordenadas_talhao = response.data.map(coordenada => ({
+              latitude: coordenada.latitude,
+              longitude: coordenada.longitude
+            }));
+            allCoords.push(coordenadas_talhao);
+          }
+          setTalhoesCoordenadas(allCoords);
+        } catch (err) {
+          console.log('Erro ao buscar coordenadas de talhões: ' + err);
+        } finally {
+          setTalhoesIsLoading(false);
+        }
+      };
+  
+      if (idTalhoes.length > 0) {
+        getAllCoordsTalhoes();
+      }
+    }, [idTalhoes]);
 
 
 
@@ -168,12 +219,17 @@
                 strokeWidth={1}
               />
 
-              <Polygon
-                coordinates={talhoesCoordendas}
-                fillColor="#FFF67E"
-                strokeColor="rgba(0, 0, 0, 0.5)"
-                strokeWidth={1}
-              />
+
+              {talhoesCoordenadas.map((coords, index) => (
+                  <Polygon
+                    key={index}
+                    coordinates={coords}
+                    fillColor="#FFF67E"
+                    strokeColor="rgba(0, 0, 0, 0.5)"
+                    strokeWidth={1}
+                  />
+                ))}
+                
             </MapView>
           </View>
             
