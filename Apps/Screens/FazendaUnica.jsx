@@ -110,7 +110,7 @@ export default function FazendaUnica() {
                         <Ionicons name="add" size={30} color="#fff" />
                         <Text style={styles.buttonTextColor}>Talhão </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.addButton} onPress={() => {console.log("add armadilha")}}>
+                    <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('CadastroArmadilhaSelectTalhao')}>
                         <Ionicons name="add" size={30} color="#fff" />
                         <Text style={styles.buttonTextColor}>Armadilha </Text>
                     </TouchableOpacity>

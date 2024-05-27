@@ -1,9 +1,10 @@
   import React, { useEffect, useState, useRef } from 'react';
-  import { View, Text, StyleSheet, Modal, ScrollView, TouchableOpacity, Image } from 'react-native';
+  import { View, Text, StyleSheet, Modal, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
   import MapView, { Marker, Polygon } from 'react-native-maps';
   import { requestForegroundPermissionsAsync, getCurrentPositionAsync, watchPositionAsync, LocationAccuracy } from 'expo-location';
   import icon_location2 from '../../../assets/icon_location2.png';
   import api from '../../Services/Axios';
+  import { format } from 'date-fns';
 
 
   const LegendItem = ({ color, text, icon }) => {
@@ -22,6 +23,7 @@
     const [selectedTrap, setSelectedTrap] = useState(null);
     const [mapReady, setMapReady] = useState(false);
     const mapRef = useRef(null);
+    const modalMapRef = useRef(null)
     const locationWatcher = useRef(null);
 
     const [fazendaIsLoading, setFazendaIsLoading] = useState(true)
@@ -30,6 +32,10 @@
     const [fazendaCoordenadas, setFazendaCoordenadas] = useState([])
     const [talhoesCoordenadas, setTalhoesCoordenadas] = useState([])
     const [armadilhasCoordenadas, setArmadilhasCoordenadas] = useState([])
+
+    const[modalLoading, setModalLoading] = useState(true)
+    const [totalPragas, setTotalPragas] = useState()
+    const [dataUltimaCaptura, setDataUltimaCaptura] = useState()
 
 
     const [idTalhoes, setIdTalhoes] = useState([])
@@ -52,7 +58,7 @@
         const startWatching = async () => {
           locationWatcher.current = await watchPositionAsync({
             accuracy: LocationAccuracy.Highest,
-            timeInterval: 1000,
+            timeInterval: 10000,
             distanceInterval: 1
           }, (response) => {
             setUserLocation(response);
@@ -80,9 +86,33 @@
       }
     };
 
-    const openModal = (trap) => {
+    const openModal = async(trap, idTrap) => {
+      console.log('abriu modal da amrmadilha: '+idTrap)
       setSelectedTrap(trap);
-      setModalVisible(true);
+ 
+      try{
+        const response = await api.get(`dados-armadilhas/findByLatest/${idTrap}`);
+        const data = response.data.data_coleta
+        const data_formatada = format(new Date(data), 'dd/MM/yyyy')
+        setDataUltimaCaptura(data_formatada)
+        setTotalPragas(response.data.quantidade)
+      
+        setModalLoading(false)
+        setModalVisible(true);
+  
+  
+        if (modalMapRef.current && trap) {
+          modalMapRef.current.animateCamera({
+            center: {
+              latitude: trap.latitude,
+              longitude: trap.longitude,
+            },
+          });
+        }
+      } catch(err) {
+        Alert.alert('Aviso', 'Nenhuma Imagem foi Cadastrada nessa Armadilha!');
+      }
+  
     }
 
 
@@ -167,7 +197,6 @@
 
 
 
-
     return (
       <View style={styles.container} onLayout={onLayout}>
         {fazendaIsLoading ? (
@@ -213,7 +242,7 @@
                       latitude: coordenada.latitude,
                       longitude: coordenada.longitude,
                     }}
-                    onPress={() => openModal(coordenada)}
+                    onPress={() => openModal(coordenada, index)}
                   />
                 ))}
                 </>
@@ -259,13 +288,13 @@
               <Text style={styles.modalTitle}>Detalhes da armadilha</Text>
               {selectedTrap && (
                <MapView
-               ref={mapRef}
+               ref={modalMapRef}
                style={styles.map}
                initialRegion={{
                  latitude: selectedTrap.latitude,
                  longitude: selectedTrap.longitude,
-                 latitudeDelta: 0.004,
-                 longitudeDelta: 0.004
+                 latitudeDelta: 0.001,
+                 longitudeDelta: 0.001
                }}
                scrollEnabled={false}
                zoomEnabled={false}
@@ -331,8 +360,8 @@
  
              </MapView>
               )}
-              <Text style={styles.textStyle}>Última captura: XX/XX/XXXX</Text>
-              <Text style={styles.textStyle}>Número de pragas: X</Text>
+              <Text style={styles.textStyle}>Última captura: {dataUltimaCaptura}</Text>
+              <Text style={styles.textStyle}>Número de pragas Capturadas: {totalPragas}</Text>
               <TouchableOpacity style={styles.registerButton} onPress={() => setModalVisible(false)}>
                 <Text style={styles.registerButtonText}>Voltar</Text>
               </TouchableOpacity>
@@ -387,7 +416,8 @@
       marginBottom: 20,
     },
     textStyle: {
-      color: '#fff'
+      color: '#fff',
+      fontSize: 17
     },
     modalTitle: {
       fontSize: 24,
