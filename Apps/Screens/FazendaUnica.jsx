@@ -106,7 +106,7 @@ export default function FazendaUnica() {
 
             <View style={styles.editDeleteButton}>
                 <View style={styles.newContainer}>
-                    <TouchableOpacity style={styles.addButton} onPress={() => {console.log("add talhão")}}>
+                    <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('CadastroTalhoes')}>
                         <Ionicons name="add" size={30} color="#fff" />
                         <Text style={styles.buttonTextColor}>Talhão </Text>
                     </TouchableOpacity>
