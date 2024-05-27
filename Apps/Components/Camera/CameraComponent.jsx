@@ -82,11 +82,11 @@ export default function CameraComponent() {
         // });
 
         
-        const s3 = await api.post("/files/upload", data, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        // const s3 = await api.post("/files/upload", data, {
+        //   headers: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+        // });
 
 
         const dataAtual = new Date();

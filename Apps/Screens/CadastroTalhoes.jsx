@@ -8,30 +8,28 @@ import api from '../Services/Axios';
 import * as DocumentPicker from 'expo-document-picker';
 
 
-export default function CadastroArmadilha() {
+export default function CadastroTalhoes() {
   const navigation = useNavigation();
-  const [talhoes, setTalhoes] = useState([]);
-  const [selectedTalhao, setSelectedTalhao] = useState('');
-  const [talhaoLoading, setTalhaoLoading] = useState(true);
+  const [fazendas, setFazendas] = useState([]);
+  const [selectedFazenda, setSelectedFazenda] = useState('');
+  const [fazendaLoading, setFazendaLoading] = useState(true);
   const { idUser } = useAuth();
 
   const [selectedFiles, setSelectedFiles] = useState([]);
 
   useEffect(() => {
-    const fetchTalhoes = async () => {
+    const fetchFazendas = async () => {
       try {
-        console.log('id usuario'+idUser)
-        console.log('rota: '+ `/fazendas/user/${idUser}`)
-        const response = await api.get(`/talhoes`);
-        setTalhoes(response.data);
-        setTalhaoLoading(false);
+        const response = await api.get(`/fazendas/user/${idUser}`);
+        setFazendas(response.data);
+        setFazendaLoading(false);
       } catch (error) {
-        console.error('Erro ao obter talhoes:', error);
-        setTalhaoLoading(false); 
+        console.error('Erro ao obter fazendas:', error);
+        setFazendaLoading(false); 
       }
     };
 
-    fetchTalhoes();
+    fetchFazendas();
   }, []);
 
 
@@ -71,17 +69,18 @@ export default function CadastroArmadilha() {
   };
 
   const buttonAvançar = async() => {
+      console.log('fazenda é' + selectedFazenda)
 
       try{
         const formData = new FormData();
         
         if(selectedFiles.length === 0){
-          Alert.alert('Aviso', 'Nenhum GEOJSON de Armadilha selecionado!');
+          Alert.alert('Aviso', 'Nenhum GEOJSON de Talhão selecionado!');
           return
         }
 
-        if(!selectedTalhao){
-          Alert.alert('Aviso', 'Nenhum Talhão selecionado!');
+        if(!selectedFazenda){
+          Alert.alert('Aviso', 'Nenhuma Fazenda selecionada!');
           return
         }
 
@@ -94,7 +93,8 @@ export default function CadastroArmadilha() {
         })
     
 
-        const response = await api.post(`/armadilhas/upload/${selectedTalhao}`, formData, {
+        console.log(`/talhoes/upload/${selectedFazenda}`)
+        const response = await api.post(`/talhoes/upload/${selectedFazenda}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -106,7 +106,7 @@ export default function CadastroArmadilha() {
         });
 
       } catch(erro){
-        console.log('Erro ao enviar GEOJSON de Armadilhas: ' + erro)
+        console.log('Erro ao enviar GEOJSON de Talhões: ' + erro)
       }
   
   }
@@ -116,22 +116,22 @@ export default function CadastroArmadilha() {
         <TouchableOpacity onPress={() => navigation.navigate('Main')}>
           <Ionicons name="arrow-back" size={45} color="#F45D16" style={styles.icon} />
         </TouchableOpacity>
-        <Text style={styles.mainTitle}>Cadastro de Armadilhas</Text>
+        <Text style={styles.mainTitle}>Cadastro de Talhões</Text>
       </View>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {talhaoLoading ? (
+        {fazendaLoading ? (
           <ActivityIndicator size="large" color="#F45D16" />
         ) : (
           <View style={styles.content}>
-            <Text style={styles.title}>Selecione um Talhão</Text>
+            <Text style={styles.title}>Selecione uma fazenda</Text>
             <Picker
-              selectedValue={selectedTalhao}
-              onValueChange={(itemValue) => setSelectedTalhao(itemValue)}
+              selectedValue={selectedFazenda}
+              onValueChange={(itemValue) => setSelectedFazenda(itemValue)}
               style={styles.picker}
             >
-              <Picker.Item label="Selecione um talhão" value="" />
-              {talhoes.map(option => (
-                <Picker.Item key={option.id_talhao} label={option.nome_talhao} value={option.id_talhao} />
+              <Picker.Item label="Selecione uma fazenda" value="" />
+              {fazendas.map(option => (
+                <Picker.Item key={option.id_fazenda} label={option.nome_fazenda} value={option.id_fazenda} />
               ))}
             </Picker>
 
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     color: 'white',
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: 'bold',
   },
   content: {

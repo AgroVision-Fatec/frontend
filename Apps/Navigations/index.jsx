@@ -13,7 +13,8 @@ import CadastroUsuario from '../Screens/CadastroUsuario';
 import SelectFazendaTalhaoArmadilhas from '../Screens/SelectFazendaTalhaoArmadilhas';
 import Localizacao from '../Screens/Localizacao';
 import FazendaUnica from '../Screens/FazendaUnica';
-
+import CadastroTalhoes from '../Screens/CadastroTalhoes';
+import CadastroArmadilha from '../Screens/CadastroArmadilha';
 
 
 
@@ -33,6 +34,8 @@ export default function AppNavigator() {
             <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} options={{ headerShown: false }} />
             <Stack.Screen name="Localizacao" component={Localizacao} options={{ headerShown: false }} />
             <Stack.Screen name="FazendaUnica" component={FazendaUnica} options={{ headerShown: false }} />
+            <Stack.Screen name="CadastroTalhoes" component={CadastroTalhoes} options={{ headerShown: false }} />
+            <Stack.Screen name="CadastroArmadilhaSelectTalhao" component={CadastroArmadilha} options={{ headerShown: false }} />
         </Stack.Navigator>
         </AuthProvider>
     );
