@@ -29,6 +29,7 @@
     const [armadilhasIsLoading, setArmadilhasIsLoading] = useState(true)
     const [fazendaCoordenadas, setFazendaCoordenadas] = useState([])
     const [talhoesCoordenadas, setTalhoesCoordenadas] = useState([])
+    const [armadilhasCoordenadas, setArmadilhasCoordenadas] = useState([])
 
 
     const [idTalhoes, setIdTalhoes] = useState([])
@@ -132,19 +133,30 @@
       const getAllCoordsTalhoes = async () => {
         try {
           const allCoords = [];
+          const allArmadilhas = [];
           for (const id of idTalhoes) {
-            const response = await api.get(`talhoes-coordenadas/${id}`);
-            const coordenadas_talhao = response.data.map(coordenada => ({
+            const responseTalhao = await api.get(`talhoes-coordenadas/${id}`);
+            const coordenadas_talhao = responseTalhao.data.map(coordenada => ({
               latitude: coordenada.latitude,
               longitude: coordenada.longitude
             }));
             allCoords.push(coordenadas_talhao);
+  
+            const responseArmadilhas = await api.get(`armadilhas/findByIdTalhao/${id}`);
+            const armadilhas = responseArmadilhas.data.map(armadilha => ({
+              latitude: armadilha.longitude,
+              longitude: armadilha.latitude
+            }));
+            allArmadilhas.push(...armadilhas);
+            
           }
           setTalhoesCoordenadas(allCoords);
+          setArmadilhasCoordenadas(allArmadilhas);
         } catch (err) {
-          console.log('Erro ao buscar coordenadas de talhões: ' + err);
+          console.log('Erro ao buscar coordenadas de talhões ou armadilhas: ' + err);
         } finally {
           setTalhoesIsLoading(false);
+          setArmadilhasIsLoading(false);
         }
       };
   
@@ -155,17 +167,6 @@
 
 
 
-    const talhoesCoordendas = [
-      { latitude: -23.25301760849988, longitude: -45.88675673797255 },
-      { latitude: -23.25283289833868, longitude: -45.887701248827646 },
-      { latitude: -23.25320593977841, longitude: -45.887677066665425 },
-      { latitude: -23.2532900343274, longitude: -45.887424760575776}
-    ];
-
-    const armadilhasCoordenadas = [
-      { latitude: -23.253055841583876, longitude: -45.887694077343205},
-      { latitude: -23.253262448934326, longitude: -45.887435711485765},
-    ];
 
     return (
       <View style={styles.container} onLayout={onLayout}>
@@ -201,17 +202,25 @@
                 />
               </Marker>
 
-              {armadilhasCoordenadas.map((coordenada, index) => (
-                <Marker
-                  key={index} 
-                  coordinate={{
-                    latitude: coordenada.latitude,
-                    longitude: coordenada.longitude,
-                  }}
-                  onPress={() => openModal(coordenada)}
-                />
-              ))}
+              {armadilhasIsLoading ? (
+                <View></View>
+              ):(
+                <>
+                  {armadilhasCoordenadas.map((coordenada, index) => (
+                  <Marker
+                    key={index}
+                    coordinate={{
+                      latitude: coordenada.latitude,
+                      longitude: coordenada.longitude,
+                    }}
+                    onPress={() => openModal(coordenada)}
+                  />
+                ))}
+                </>
+              )}
+         
 
+       
               <Polygon
                 coordinates={fazendaCoordenadas}
                 fillColor="#9BCF53"
@@ -219,17 +228,23 @@
                 strokeWidth={1}
               />
 
+            {talhoesIsLoading ? ( 
+                  <View></View>
+                  ):(
+                    <>
+                    {talhoesCoordenadas.map((coords, index) => (
+                      <Polygon
+                        key={index}
+                        coordinates={coords}
+                        fillColor="#FFF67E"
+                        strokeColor="rgba(0, 0, 0, 0.5)"
+                        strokeWidth={1}
+                        />
+                    ))}
+                    </>
+                  )}
+            
 
-              {talhoesCoordenadas.map((coords, index) => (
-                  <Polygon
-                    key={index}
-                    coordinates={coords}
-                    fillColor="#FFF67E"
-                    strokeColor="rgba(0, 0, 0, 0.5)"
-                    strokeWidth={1}
-                  />
-                ))}
-                
             </MapView>
           </View>
             
@@ -243,39 +258,78 @@
             <View style={styles.modalContent}>
               <Text style={styles.modalTitle}>Detalhes da armadilha</Text>
               {selectedTrap && (
-                <MapView
-                  style={styles.modalMap}
-                  initialRegion={{
-                    latitude: selectedTrap.latitude,
-                    longitude: selectedTrap.longitude,
-                    latitudeDelta: 0.001,
-                    longitudeDelta: 0.001,
-                  }}
-                  scrollEnabled={false}
-                  zoomEnabled={false}
-                  rotateEnabled={false}
-                >
-                  <Marker
-                    coordinate={{
-                      latitude: selectedTrap.latitude,
-                      longitude: selectedTrap.longitude,
-                    }}
-                  />
-
-                  <Polygon
-                    coordinates={fazendaCoordenadas}
-                    fillColor="#9BCF53"
-                    strokeColor="rgba(0, 0, 0, 0.5)"
-                    strokeWidth={1}
-                  />
-
-                  <Polygon
-                    coordinates={talhoesCoordendas}
-                    fillColor="#FFF67E"
-                    strokeColor="rgba(0, 0, 0, 0.5)"
-                    strokeWidth={1}
-                  />
-                </MapView>
+               <MapView
+               ref={mapRef}
+               style={styles.map}
+               initialRegion={{
+                 latitude: selectedTrap.latitude,
+                 longitude: selectedTrap.longitude,
+                 latitudeDelta: 0.004,
+                 longitudeDelta: 0.004
+               }}
+               scrollEnabled={false}
+               zoomEnabled={false}
+               rotateEnabled={false}
+             >
+               <Marker
+                 coordinate={{
+                   latitude: userLocation.coords.latitude,
+                   longitude: userLocation.coords.longitude,
+                 }}
+                 anchor={{ x: 0.5, y: 0.5 }}
+                 centerOffset={{ x: 0, y: -50 }}
+               >
+                 <Image 
+                   source={icon_location2} 
+                   style={{ width: 80, height: 80 }}
+                   tintColor={'#5CE1E6'}
+                 />
+               </Marker>
+ 
+               {armadilhasIsLoading ? (
+                 <View></View>
+               ):(
+                 <>
+                   {armadilhasCoordenadas.map((coordenada, index) => (
+                   <Marker
+                     key={index}
+                     coordinate={{
+                       latitude: coordenada.latitude,
+                       longitude: coordenada.longitude,
+                     }}
+                     onPress={() => openModal(coordenada)}
+                   />
+                 ))}
+                 </>
+               )}
+          
+ 
+        
+               <Polygon
+                 coordinates={fazendaCoordenadas}
+                 fillColor="#9BCF53"
+                 strokeColor="rgba(0, 0, 0, 0.5)"
+                 strokeWidth={1}
+               />
+ 
+             {talhoesIsLoading ? ( 
+                   <View></View>
+                   ):(
+                     <>
+                     {talhoesCoordenadas.map((coords, index) => (
+                       <Polygon
+                         key={index}
+                         coordinates={coords}
+                         fillColor="#FFF67E"
+                         strokeColor="rgba(0, 0, 0, 0.5)"
+                         strokeWidth={1}
+                         />
+                     ))}
+                     </>
+                   )}
+             
+ 
+             </MapView>
               )}
               <Text style={styles.textStyle}>Última captura: XX/XX/XXXX</Text>
               <Text style={styles.textStyle}>Número de pragas: X</Text>
