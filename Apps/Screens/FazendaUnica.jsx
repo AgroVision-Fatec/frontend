@@ -5,6 +5,7 @@ import { StyleSheet } from "react-native";
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import MapaComponent from "../Components/Mapa/MapaComponent";
+import api from '../Services/Axios';
 
 
 export default function FazendaUnica() {
@@ -20,7 +21,11 @@ export default function FazendaUnica() {
     const [editedCoordinates, setEditedCoordinates] = useState('');
     const [fazendaInfo, setFazendaInfo] = useState([]);
 
-    
+
+    const [totalCamposCadastrados, setTotalCamposCadastrados] = useState(0);
+    const [totalArmadilhasCadastradas, setTotalArmadilhasCadastradas] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isArmadilhasLoading, setIsArmadilhasLoading] = useState(true)
 
     useEffect(() => {
         console.log(idFazenda)
@@ -76,6 +81,39 @@ export default function FazendaUnica() {
         }
     };
 
+
+
+
+
+    useEffect(() => {
+        async function fetchCamposCadastrados() {
+            try {
+                const response = await api.get(`/talhoes/findByIdFazenda/${idFazenda}`);
+                setTotalCamposCadastrados(response.data.length); 
+                setIsLoading(false);
+            } catch (error) {
+                console.log("Erro ao buscar Campos:", error);
+                setIsLoading(false);
+            }
+        }
+
+
+        async function fetchArmadilhasCadastradas() {
+            try {
+                const response = await api.get(`/armadilhas`);
+                setTotalArmadilhasCadastradas(response.data.length); 
+                setIsArmadilhasLoading(false);
+            } catch (error) {
+                console.log("Erro ao buscar Armadilhas:", error);
+                setIsArmadilhasLoading(false);
+            }
+        }
+
+
+        fetchCamposCadastrados();
+        fetchArmadilhasCadastradas();
+    }, [idFazenda]);
+
     return(
         <View style={styles.container}>
 
@@ -87,16 +125,12 @@ export default function FazendaUnica() {
             </View>
             <View style={styles.infoContainer}>
                 <View style={styles.textContainer}>
-                    <Text style={dynamicStyle.numberArmadilhas}>12</Text>
+                    <Text style={dynamicStyle.numberArmadilhas}>{totalArmadilhasCadastradas}</Text>
                     <Text style={dynamicStyle.subTitleArmadilhas}>Armadilhas Cadastradas</Text>
                 </View>
                 <View style={styles.textContainer}>
-                    <Text style={dynamicStyle.numberTalhoes}>542</Text>
+                    <Text style={dynamicStyle.numberTalhoes}>{totalCamposCadastrados}</Text>
                     <Text style={dynamicStyle.subTitleTalhoes}>Talhões Reconhecidos</Text>
-                </View>
-                <View style={styles.textContainer}>
-                    <Text style={dynamicStyle.numberPragas}>542</Text>
-                    <Text style={dynamicStyle.subTitlePragas}>Pragas Reconhecidas</Text>
                 </View>
             </View>
 

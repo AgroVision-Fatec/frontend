@@ -36,6 +36,11 @@ export default function ControleUser() {
     try {
       await api.delete(`/users/${id}`);
       setUsers(users.filter((user) => user.id !== id));
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Main' }],
+      });
+
     } catch (error) {
       console.log("Erro ao deletar usuário:", error);
     }
