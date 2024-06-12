@@ -54,8 +54,8 @@ export default function Inicio() {
         />
         <CardTotal
           title="Total de Armadilhas"
-          number={totalArmadilhas}
-          subTitle="fotos cadastradas"
+          number={"+"}
+          subTitle="Cadastrar Imagens"
           type="armadilha"
         />
       </View>
