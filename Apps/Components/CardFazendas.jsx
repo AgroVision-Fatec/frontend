@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Modal, TextInput, Button } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { Ionicons } from '@expo/vector-icons';
 import Agro from '../../assets/Agro.jpeg';
 import Agro2 from '../../assets/Agro2.jpeg';
-import Agro3 from '../../assets/Agro3.jpeg'
-import Agro4 from '../../assets/Agro4.jpg'
+import Agro3 from '../../assets/Agro3.jpeg';
+import Agro4 from '../../assets/Agro4.jpg';
 import api from '../Services/Axios';
 import MapaComponent from './Mapa/MapaComponent';
 
@@ -16,39 +16,74 @@ export default function Fazendas({ idFazenda, title, numArmadilhas, numPragas, s
     const [editedType, setEditedType] = useState('');
     const [editedCoordinates, setEditedCoordinates] = useState('');
     const [fazendaInfo, setFazendaInfo] = useState([]);
-
-    
+    const [totalCamposCadastrados, setTotalCamposCadastrados] = useState(0);
+    const [totalArmadilhasCadastradas, setTotalArmadilhasCadastradas] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isArmadilhasLoading, setIsArmadilhasLoading] = useState(true)
 
     useEffect(() => {
         setFazendaInfo(fazenda);
-     }, []);
+    }, []);
 
-
-    const abrirFazenda = async() => {
+    const abrirFazenda = () => {
         navigation.navigate('FazendaUnica', { idFazenda, title, numArmadilhas, numPragas, setFazendas, fazenda });
-    }
+    };
 
+    useEffect(() => {
+        async function fetchCamposCadastrados() {
+            try {
+                const response = await api.get(`/talhoes/findByIdFazenda/${idFazenda}`);
+                setTotalCamposCadastrados(response.data.length); 
+                setIsLoading(false);
+            } catch (error) {
+                console.log("Erro ao buscar Campos:", error);
+                setIsLoading(false);
+            }
+        }
+
+
+        async function fetchArmadilhasCadastradas() {
+            try {
+                const response = await api.get(`/armadilhas`);
+                setTotalArmadilhasCadastradas(response.data.length); 
+                setIsArmadilhasLoading(false);
+            } catch (error) {
+                console.log("Erro ao buscar Armadilhas:", error);
+                setIsArmadilhasLoading(false);
+            }
+        }
+
+
+        fetchCamposCadastrados();
+        fetchArmadilhasCadastradas();
+    }, [idFazenda]);
 
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-            <TouchableOpacity onPress={() => abrirFazenda()}>
+            <TouchableOpacity onPress={abrirFazenda}>
                 <View style={styles.BoxFazenda}>
                     {/* <MapaComponent idFazenda={idFazenda}/> */}
-                    <Image source={Agro3} style={styles.image}/>
+                    <Image source={Agro3} style={styles.image} />
 
                     <View style={styles.primaryBox}>
                         <Text style={styles.boxText}>{title}</Text>
                         <View style={styles.infoContainer}>
-                            <View style={styles.textContainer}>
-                                <Text style={dynamicStyle.numberArmadilhas}>12</Text>
-                                <Text style={dynamicStyle.subTitleArmadilhas}>armadilhas cadastradas</Text>
-                            </View>
-                            <View style={styles.textEditDeleteContainer}>
-                                <View style={styles.textContainer}>
-                                    <Text style={dynamicStyle.numberPragas}>542</Text>
-                                    <Text style={dynamicStyle.subTitlePragas}>pragas reconhecidas</Text>
-                                </View>
-                            </View>
+                            {isLoading && isArmadilhasLoading ? (
+                                <ActivityIndicator size="large" color="#8DC63E" />
+                            ) : (
+                                <>
+                                    <View style={styles.textContainer}>
+                                        <Text style={dynamicStyle.numberArmadilhas}>{totalCamposCadastrados}</Text>
+                                        <Text style={dynamicStyle.subTitleArmadilhas}>Campos Cadastrados</Text>
+                                    </View>
+                                    <View style={styles.textEditDeleteContainer}>
+                                        <View style={styles.textContainer}>
+                                            <Text style={dynamicStyle.numberPragas}>{totalArmadilhasCadastradas}</Text>
+                                            <Text style={dynamicStyle.subTitlePragas}>Armadilhas Cadastradas</Text>
+                                        </View>
+                                    </View>
+                                </>
+                            )}
                         </View>
                     </View>
                 </View>
@@ -64,12 +99,12 @@ const styles = StyleSheet.create({
     },
     BoxFazenda: {
         width: 390,
-        height: 220, 
+        height: 220,
         backgroundColor: '#E4E4E4',
         borderRadius: 10,
         margin: 10,
-        flexDirection: 'row', 
-        alignItems: 'center', 
+        flexDirection: 'row',
+        alignItems: 'center',
         padding: 10,
     },
     primaryBox: {
@@ -79,24 +114,24 @@ const styles = StyleSheet.create({
         width: 130,
         flexDirection: 'column',
         alignItems: 'flex-start',
-     },
-     secondaryBox: {
+    },
+    secondaryBox: {
         flexDirection: 'column',
         alignItems: 'flex-start',
-     },
+    },
     image: {
-        width: 230, 
-        height: 200, 
+        width: 230,
+        height: 200,
         borderRadius: 10,
-        marginRight: 10, 
+        marginRight: 10,
     },
     boxText: {
-        color: '#323335', 
+        color: '#323335',
         fontSize: 18,
-        fontWeight: 'bold', 
-     },
+        fontWeight: 'bold',
+    },
     textContainer: {
-        flex: 1, 
+        flex: 1,
         alignItems: 'flex-start',
     },
     textEditDeleteContainer: {
@@ -127,21 +162,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 10,
         maxHeight: 75,
-    },  
+    },
     editDeleteButton: {
-        flex: 1, 
-        // alignItems: 'flex-start',
+        flex: 1,
         flexDirection: 'column',
         gap: 10,
     },
     editDeleteContainer: {
-        flex: 1, 
+        flex: 1,
         flexDirection: 'row',
         gap: 10,
         maxWidth: 62,
     },
     newContainer: {
-        flex: 1, 
+        flex: 1,
         flexDirection: 'row',
         gap: 10,
         maxWidth: 62,
@@ -172,7 +206,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ccc',
         borderRadius: 5,
         textAlign: 'center',
-    }, 
+    },
     deleteButton: {
         marginTop: 20,
         padding: 10,
@@ -214,12 +248,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 40,
         marginTop: 20,
         borderRadius: 5,
-      },
-      registerButtonText: {
+    },
+    registerButtonText: {
         color: '#fff',
         fontSize: 18,
         fontWeight: 'bold',
-      },
+    },
 });
 
 const dynamicStyle = {
@@ -227,20 +261,20 @@ const dynamicStyle = {
         color: '#8DC63E',
         fontSize: 35,
         fontWeight: 'bold',
-     },
-     subTitleArmadilhas: {
+    },
+    subTitleArmadilhas: {
         color: '#8DC63E',
         fontSize: 14,
         fontWeight: 'bold',
-     },
-     numberPragas: {
+    },
+    numberPragas: {
         color: '#C80000',
         fontSize: 35,
         fontWeight: 'bold',
-     },
-     subTitlePragas: {
+    },
+    subTitlePragas: {
         color: '#C80000',
         fontSize: 14,
         fontWeight: 'bold',
-     },
+    },
 };
