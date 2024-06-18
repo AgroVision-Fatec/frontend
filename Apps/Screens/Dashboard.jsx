@@ -130,9 +130,9 @@ export default function Dashboard() {
   };
 
   const chartConfig = {
-    backgroundColor: "#323335",
+    backgroundColor: "#F45D16 ",
     decimalPlaces: 0,
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    color: (opacity = 1) => `rgba(244, 93, 22, ${opacity})`,
     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
     style: {
       borderRadius: 16
@@ -140,7 +140,7 @@ export default function Dashboard() {
     propsForDots: {
       r: "6",
       strokeWidth: "2",
-      stroke: "#ffa726"
+      stroke: "#ffffff "
     }
   };
 

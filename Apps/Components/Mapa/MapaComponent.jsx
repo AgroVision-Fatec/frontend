@@ -252,7 +252,7 @@
        
               <Polygon
                 coordinates={fazendaCoordenadas}
-                fillColor="#9BCF53"
+                fillColor="rgba(155, 207, 83, 0.7)"
                 strokeColor="rgba(0, 0, 0, 0.5)"
                 strokeWidth={1}
               />
@@ -265,7 +265,7 @@
                       <Polygon
                         key={index}
                         coordinates={coords}
-                        fillColor="#FFF67E"
+                        fillColor="rgba(255, 246, 126, 1)"
                         strokeColor="rgba(0, 0, 0, 0.5)"
                         strokeWidth={1}
                         />
@@ -336,7 +336,7 @@
         
                <Polygon
                  coordinates={fazendaCoordenadas}
-                 fillColor="#9BCF53"
+                 fillColor="rgba(155, 207, 83, 0.7)"
                  strokeColor="rgba(0, 0, 0, 0.5)"
                  strokeWidth={1}
                />
@@ -349,7 +349,7 @@
                        <Polygon
                          key={index}
                          coordinates={coords}
-                         fillColor="#FFF67E"
+                         fillColor="rgba(255, 246, 126, 1)"
                          strokeColor="rgba(0, 0, 0, 0.5)"
                          strokeWidth={1}
                          />

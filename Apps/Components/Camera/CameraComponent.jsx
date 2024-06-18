@@ -92,7 +92,7 @@ export default function CameraComponent() {
         const dataAtual = new Date();
         const data_formatada = dataAtual.toISOString().slice(0,19).replace('T', ' ')
         console.log('comecando ai')
-        const processamento_pragas = await axios.post('http://192.168.101.202:5000/processar-imagem', data_IA, {
+        const processamento_pragas = await axios.post('http://192.168.186.78:5000/processar-imagem', data_IA, {
             headers: {
               "Content-Type": "multipart/form-data",
             },

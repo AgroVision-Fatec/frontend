@@ -51,7 +51,7 @@ export default function ControleUser() {
   const sendWhatsAppMessage = (phone_number) => {
     try {
       const phoneNumber = phone_number.toString();
-      const message = 'Foram encontradas 16 pragas'; // Alterar para enviar a quantidade do ultimo registro de pragas
+      const message = 'Olá, essa é uma mensagem enviada por um administrador da sua fazenda.'; // Alterar para enviar a quantidade do ultimo registro de pragas
       const url = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
       Linking.openURL(url);
       setShowModal(true);
