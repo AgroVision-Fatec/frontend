@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Button,
   ScrollView,
   Text,
   StyleSheet,
   TouchableOpacity,
+  Linking,
+  Modal,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import api from "../Services/Axios";
@@ -18,6 +19,7 @@ export default function ControleUser() {
 
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -26,12 +28,13 @@ export default function ControleUser() {
         setUsers(response.data);
         setIsLoading(false);
       } catch (error) {
-        console.log("Erro ao buscar fazendas:", error);
+        console.log("Erro ao buscar usuários:", error);
         setIsLoading(false);
       }
     }
     fetchUsers();
   }, []);
+
   const handleDelete = async (id) => {
     try {
       await api.delete(`/users/${id}`);
@@ -40,21 +43,35 @@ export default function ControleUser() {
         index: 0,
         routes: [{ name: 'Main' }],
       });
-
     } catch (error) {
       console.log("Erro ao deletar usuário:", error);
     }
   };
+
+  const sendWhatsAppMessage = (phone_number) => {
+    try {
+      const phoneNumber = phone_number.toString();
+      const message = 'Foram encontradas 16 pragas'; // Alterar para enviar a quantidade do ultimo registro de pragas
+      const url = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+      Linking.openURL(url);
+      setShowModal(true);
+      setTimeout(() => {
+        setShowModal(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Erro ao enviar mensagem:', error);
+    }
+  };
+
 
   return (
     <View style={styles.container}>
       <Text style={styles.textSubTitle}>Usuários</Text>
       <View style={styles.scrollContainer}>
         <ScrollView style={styles.listContainer}>
-          {users.map((user, index) =>
-            // se user.id === idUser, não exibir
+          {users.map((user) =>
             user.id_usuario === idUser ? null : (
-              <View style={styles.Arquivos} key={index}>
+              <View style={styles.Arquivos} key={user.id_usuario}>
                 <View style={styles.secondBox}>
                   <Ionicons
                     name="person"
@@ -64,6 +81,13 @@ export default function ControleUser() {
                   />
                   <Text style={styles.itemText}>{user.nome}</Text>
                 </View>
+                <Ionicons
+                  name="logo-whatsapp"
+                  size={30}
+                  color="#22C55E"
+                  style={styles.icon}
+                  onPress={() => sendWhatsAppMessage(user.telefone)}
+                />
                 <Ionicons
                   name="trash"
                   size={30}
@@ -80,36 +104,71 @@ export default function ControleUser() {
           onPress={() => navigation.navigate("CadastroUsuario")}
         >
           <View>
-            <Text style={styles.cadButtonText}>Novo Usuario</Text>
+            <Text style={styles.cadButtonText}>Novo Usuário</Text>
           </View>
         </TouchableOpacity>
       </View>
+
+      {/* Modal para exibir aviso de mensagem enviada */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => setShowModal(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Mensagem enviada com sucesso!</Text>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff",
-    marginTop: 50,
     backgroundColor: "#323335",
+    marginTop: 50,
   },
-  mainTitle: {
-    color: "white",
-    fontSize: 35,
+  textSubTitle: {
+    fontSize: 25,
+    color: "#fff",
+    margin: 10,
+    marginTop: 20,
+    marginBottom: 10,
     fontWeight: "bold",
   },
   scrollContainer: {
-    height: 10,
     flex: 1,
     alignItems: "flex-end",
     justifyContent: "center",
+    width: "100%",
   },
-  containerText: {
+  listContainer: {
     flex: 1,
-    alignItems: "flex-end",
+    width: "100%",
+    backgroundColor: "#E4E4E4",
+    borderRadius: 10,
+    paddingHorizontal: 20,
+  },
+  Arquivos: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  secondBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 20,
+  },
+  icon: {
+    marginRight: 10,
   },
   sendButton: {
     marginTop: 10,
@@ -122,66 +181,31 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderRadius: 10,
   },
-  buttonContainer: {
-    width: 350,
-    height: 130,
-    backgroundColor: "#E2C0B0",
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "#F45D16",
-    borderStyle: "dashed",
-    gap: 13,
-  },
   cadButtonText: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
   },
-  listContainer: {
-    flex: 1,
-    height: 15,
-    width: 350,
-    paddingHorizontal: 20,
-    backgroundColor: "#E4E4E4",
-    borderRadius: 10,
-  },
   itemText: {
     fontSize: 16,
   },
-  InboxText: {
-    fontSize: 20,
-    color: "#F45D16",
-    fontWeight: "bold",
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  textTitle: {
-    fontSize: 50,
-    color: "#fff",
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: "bold",
     textAlign: "center",
-    marginTop: 50,
-    marginBottom: 20,
-    fontWeight: "bold",
-  },
-  textSubTitle: {
-    fontSize: 25,
-    color: "#fff",
-    margin: 10,
-    marginTop: 20,
-    marginBottom: 10,
-    fontWeight: "bold",
-  },
-  Arquivos: {
-    flexDirection: "row",
-    gap: 10,
-    marginTop: 20,
-    justifyContent: "space-between",
-  },
-  secondBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 20,
   },
 });

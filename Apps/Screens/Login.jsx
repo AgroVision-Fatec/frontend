@@ -41,7 +41,7 @@ export default function Login() {
       });
     } catch (error) {
       
-      Alert.alert('Erro', 'Usuário ou senha incorretos. Por favor, tente novamenteee.');
+      Alert.alert('Erro', 'Usuário ou senha incorretos. Por favor, tente novamente.');
     }
   };
 
